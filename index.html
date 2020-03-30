@@ -1,0 +1,189 @@
+<body>
+<content id="chat">
+    <ul id="messages">
+        <li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.pending == true}">
+            <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
+            <p>{{m.text}}</p>
+
+        </li>
+    </ul>
+
+
+
+    <v-text v-model="currentMSG" @send="send()"></v-text>
+
+    <input type="radio" v-model="author" value=1>
+    <input type="radio" v-model="author" value=2>
+
+</content>
+
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script>
+
+var vText = {
+    props: ['value'],
+    template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" :value="value"></textarea>`,
+    directives: {
+        focus: {
+            inserted: function (el) {
+                el.focus()
+            }
+        }
+    },
+    methods: {
+        rows() {
+            if (!this.$el) return 1; //new block on the block
+            this.$el.setAttribute("rows", "1");
+            var computed = window.getComputedStyle(this.$el);
+            var lh = parseInt(computed.getPropertyValue('line-height'));
+            var rows = parseInt(this.$el.scrollHeight / lh);
+            this.$el.setAttribute("rows", rows);
+            return rows;
+        },
+        onInput(event) {
+            this.$emit('input', event.target.value);
+
+            this.rows();
+        },
+        onEnter(event) {
+            if (this.value == "") return;
+            this.$emit('send');
+            this.$el.setAttribute("rows", 1);
+        }
+    }
+}
+
+var app = new Vue({
+    el: "#chat",
+    data: {
+        currentMSG: "",
+        messages: [],
+        msgUrl: "messages.json",
+        author: 1
+    },
+    methods: {
+        send() {
+            var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
+            this.upload(msg);
+            msg.pending = true;
+            this.messages.push(msg);
+            this.currentMSG = "";
+        },
+        formattedTime(time) {
+            var date = new Date(time);
+            return date.getHours() + "." + date.getMinutes() + "." + date.getSeconds();
+        },
+        upload(msg) {
+            var postUrl = this.msgUrl;
+
+            var req = new XMLHttpRequest();
+            req.open("POST", "uploadMsg.php", true);
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            req.send("post=" + JSON.stringify(msg) + "&url=" + postUrl);
+
+            var vm = this;
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    vm.messages[vm.messages.length-1].pending = false;
+                }
+            };
+        },
+        getMessages() {
+            var req = new XMLHttpRequest();
+            req.open("GET", this.msgUrl, true);
+            req.send();
+
+            var vm = this;
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    vm.messages = JSON.parse(this.response);
+                }
+            };
+        }
+    },
+    components: {
+        'v-text': vText
+    },
+    mounted() {
+        this.getMessages();
+        //window.scrollTo(0, document.body.scrollHeight);
+    }
+})
+
+</script>
+
+<style>
+    body {
+        background-color: #222;
+        font-size: 18px;
+        line-height: 1.5;
+    }
+
+    content {
+        width: 100%;
+        max-width: 500px;
+    }
+    ul#messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .message {
+        background-color: #8bff92;
+        padding: 0.5em 1em;
+        border-radius: 1em 1em 1em 0em;
+        margin-bottom: 1em;
+    }
+    .message+.message {
+        /*border-radius: 0;*/
+    }
+    .message.pending {
+      background-color: red;
+    }
+    .message.right {
+        background-color: aqua;
+        align-self: flex-end;
+        border-radius: 1em 0em 1em 1em;
+    }
+    .message p {
+        margin: 0;
+    }
+    .message .time {
+        text-align: end;
+        font-size: 14px;
+    }
+
+    textarea {
+        outline: none;
+        padding: 0.5em;
+        border: 0;
+        border-radius: 1em;
+        background-color: #8bff92;
+        /*position: fixed;*/
+        /*line-height: 20px !important;*/
+        bottom: 0;
+        white-space: normal;
+        resize: none;
+        overflow: hidden;
+        display: block;
+        width: 100%;
+        font-size: inherit;
+        font-family: inherit;
+        line-height: inherit;
+    }
+    textarea::placeholder {
+        color: #0008;
+    }
+</style>
