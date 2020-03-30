@@ -89,6 +89,7 @@ var app = new Vue({
 
             var vm = this;
             req.onreadystatechange = function() {
+                console.log(this);
                 if (this.readyState == 4 && this.status == 200) {
                     vm.messages[vm.messages.length-1].pending = false;
                 }
