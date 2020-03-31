@@ -35,13 +35,11 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.database();
+var database = firebase.database();
 debugger;
-/*firebase.database().ref('users/' + userId).set({
-    username: name,
-    email: email,
-    profile_picture : imageUrl
-});*/
+firebase.database().ref('users/' + 777).set({
+    username: "olli"
+});
 </script>
 
 </body>
