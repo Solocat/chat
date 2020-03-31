@@ -4,11 +4,8 @@
         <li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.pending == true}">
             <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
             <p>{{m.text}}</p>
-
         </li>
     </ul>
-
-
 
     <v-text v-model="currentMSG" @send="send()"></v-text>
 
@@ -17,34 +14,14 @@
 
 </content>
 
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
-
-<script>
-// Your web app's Firebase configuration
-var firebaseConfig = {
-    apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
-    authDomain: "solo-poke.firebaseapp.com",
-    databaseURL: "https://solo-poke.firebaseio.com",
-    projectId: "solo-poke",
-    storageBucket: "solo-poke.appspot.com",
-    messagingSenderId: "583889049222",
-    appId: "1:583889049222:web:5b43974b1605558c386307"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-var database = firebase.database();
-debugger;
-firebase.database().ref('users/' + 777).set({
-    username: "olli"
-});
-</script>
-
-</body>
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script>
 
@@ -87,7 +64,8 @@ var app = new Vue({
         currentMSG: "",
         messages: [],
         msgUrl: "messages.json",
-        author: 1
+        author: 1,
+        database: {}
     },
     methods: {
         send() {
@@ -102,41 +80,39 @@ var app = new Vue({
             return date.getHours() + "." + date.getMinutes() + "." + date.getSeconds();
         },
         upload(msg) {
-            var postUrl = this.msgUrl;
-
-            var req = new XMLHttpRequest();
-            /*req.open("POST", "uploadMsg.php", true);
-            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            req.send("post=" + JSON.stringify(msg) + "&url=" + postUrl);
-
             var vm = this;
-            req.onreadystatechange = function() {
-                console.log(this);
-                if (this.readyState == 4 && this.status == 200) {
-                    vm.messages[vm.messages.length-1].pending = false;
-                }
-            };*/
+            this.database.ref('messages/' + this.messages.length).set({
+                text: msg.text, time: msg.time, author: msg.author
+            }).then(function() {
+                vm.messages[vm.messages.length-1].pending = false;
+            });
         },
         getMessages() {
-            var req = new XMLHttpRequest();
-            req.open("GET", this.msgUrl, true);
-            req.send();
-
             var vm = this;
-            req.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    vm.messages = JSON.parse(this.response);
-                }
-            };
+            this.database.ref('messages').once('value').then(function(snapshot) {
+                vm.messages = snapshot.val();
+            });
         }
     },
     components: {
         'v-text': vText
     },
     mounted() {
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
+            authDomain: "solo-poke.firebaseapp.com",
+            databaseURL: "https://solo-poke.firebaseio.com",
+            projectId: "solo-poke",
+            storageBucket: "solo-poke.appspot.com",
+            messagingSenderId: "583889049222",
+            appId: "1:583889049222:web:5b43974b1605558c386307"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        this.database = firebase.database();
+
         this.getMessages();
-
-
 
         //window.scrollTo(0, document.body.scrollHeight);
     }
