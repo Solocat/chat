@@ -17,34 +17,11 @@
 
 </content>
 
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
-    authDomain: "solo-poke.firebaseapp.com",
-    databaseURL: "https://solo-poke.firebaseio.com",
-    projectId: "solo-poke",
-    storageBucket: "solo-poke.appspot.com",
-    messagingSenderId: "583889049222",
-    appId: "1:583889049222:web:5b43974b1605558c386307"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  var database = firebase.database();
-  debugger;
-</script>
-
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
 
 <script>
 
@@ -135,6 +112,28 @@ var app = new Vue({
     },
     mounted() {
         this.getMessages();
+
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
+                authDomain: "solo-poke.firebaseapp.com",
+                databaseURL: "https://solo-poke.firebaseio.com",
+                projectId: "solo-poke",
+                storageBucket: "solo-poke.appspot.com",
+                messagingSenderId: "583889049222",
+                appId: "1:583889049222:web:5b43974b1605558c386307"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            var database = firebase.database();
+            database.ref('users/' + userId).set({
+                username: name,
+                email: email,
+                profile_picture : imageUrl
+            });
+            debugger;
+
         //window.scrollTo(0, document.body.scrollHeight);
     }
 })
