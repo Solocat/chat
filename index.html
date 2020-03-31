@@ -90,7 +90,7 @@ var app = new Vue({
         getMessages() {
             var vm = this;
             this.database.ref('messages').once('value').then(function(snapshot) {
-                vm.messages = snapshot.val();
+                if (vm.messages) vm.messages = snapshot.val();
             });
         }
     },
