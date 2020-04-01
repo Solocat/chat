@@ -12,7 +12,7 @@ var app = new Vue({
             var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
             this.upload(msg);
             msg.status = "pending";
-            this.messages.push(msg);
+            //this.messages.push(msg);
             this.currentMSG = "";
         },
         formattedTime(time) {
@@ -21,20 +21,20 @@ var app = new Vue({
         },
         async upload(msg) {
             try {
-                const req = await this.database.ref('messages').push().set(msg);
-                this.messages[this.messages.length-1].status = "sent";
+                await this.database.ref('messages').push().set(msg);
+                //this.messages[this.messages.length-1].status = "sent";
             }
             catch(error) {
                 console.error(error)
-                this.messages[this.messages.length-1].status = "error";
+                //this.messages[this.messages.length-1].status = "error";
             }
         },
         async getMessages() {
-            var data = (await this.database.ref('messages').once('value')).val();
+            const data = (await this.database.ref('messages').once('value')).val();
             return Object.values(data);
         },
         getDatabase() {
-            var firebaseConfig = {
+            const firebaseConfig = {
                 apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
                 authDomain: "solo-poke.firebaseapp.com",
                 databaseURL: "https://solo-poke.firebaseio.com",
@@ -56,19 +56,16 @@ var app = new Vue({
         'v-text': vText
     },
     async mounted() {
-        var firebaseConfig = {
-            apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
-            authDomain: "solo-poke.firebaseapp.com",
-            databaseURL: "https://solo-poke.firebaseio.com",
-            projectId: "solo-poke",
-            storageBucket: "solo-poke.appspot.com",
-            messagingSenderId: "583889049222",
-            appId: "1:583889049222:web:5b43974b1605558c386307"
-        };
-        firebase.initializeApp(firebaseConfig);
-        this.database = firebase.database();
+        this.database = this.getDatabase();
 
-        this.messages = await this.getMessages();
+        //this.messages = await this.getMessages();
+
+        const vm = this;
+        var messages = firebase.database().ref('messages');
+        messages.on('value', function(snapshot) {
+            console.log(snapshot.val());
+            vm.messages = Object.values(snapshot.val());
+        });
     },
     updated() {
         this.autoScroll();
