@@ -39,10 +39,9 @@ var app = new Vue({
         async authenticate(provider)
         {
             try {
-                var answer = await firebase.auth().signInWithPopup(provider);
-                console.log(answer.result);
-                //result.user.uid
-                debugger;
+                var result = await firebase.auth().signInWithPopup(provider);
+                console.log(result);
+                return result.user.uid;
             }
             catch (error) {
                 console.log(error);
@@ -59,7 +58,6 @@ var app = new Vue({
     },
     async mounted() {
         this.database = firebase.database();
-
 
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().useDeviceLanguage();
