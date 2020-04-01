@@ -45,12 +45,12 @@ var app = new Vue({
         'v-text': vText
     },
     async mounted() {
-        this.database = this.getDatabase();
+        this.database = firebase.database();
 
         //this.messages = await this.getMessages();
 
         const vm = this;
-        var messages = firebase.database().ref('messages').limitToLast(10);
+        var messages = this.database.ref('messages').limitToLast(10);
         /*messages.on('value', function(snapshot) {
             console.log(snapshot.val());
             vm.messages = Object.values(snapshot.val());
