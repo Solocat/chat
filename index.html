@@ -92,9 +92,8 @@ var app = new Vue({
             });
         },
         getMessages() {
-            var vm = this;
-            this.database.ref('messages').once('value').then(function(snapshot) {
-                vm.messages = Object.values(snapshot.val());
+            return this.database.ref('messages').once('value').then(function(snapshot) {
+                return Object.values(snapshot.val());
             });
         },
         getDatabase() {
@@ -110,12 +109,16 @@ var app = new Vue({
             // Initialize Firebase
             firebase.initializeApp(firebaseConfig);
             return firebase.database();
+        },
+        autoScroll() {
+            var objDiv = document.getElementById("messages");
+            objDiv.scrollTop = objDiv.scrollHeight;
         }
     },
     components: {
         'v-text': vText
     },
-    mounted() {
+    async mounted() {
         var firebaseConfig = {
             apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
             authDomain: "solo-poke.firebaseapp.com",
@@ -128,9 +131,10 @@ var app = new Vue({
         firebase.initializeApp(firebaseConfig);
         this.database = firebase.database();
 
-        this.getMessages();
-
-        //window.scrollTo(0, document.body.scrollHeight);
+        this.messages = await this.getMessages();
+    },
+    updated() {
+        this.autoScroll();
     }
 })
 
