@@ -61,11 +61,17 @@ var app = new Vue({
         //this.messages = await this.getMessages();
 
         const vm = this;
-        var messages = firebase.database().ref('messages');
-        messages.on('value', function(snapshot) {
+        var messages = firebase.database().ref('messages').limitToLast(10);
+        /*messages.on('value', function(snapshot) {
             console.log(snapshot.val());
             vm.messages = Object.values(snapshot.val());
+        });*/
+
+        messages.on('child_added', function(data) {
+            console.log(data.val());
+            vm.messages.push(data.val());
         });
+
     },
     updated() {
         this.autoScroll();
