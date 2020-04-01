@@ -14,127 +14,16 @@
 
 </content>
 
-</body>
-
 <link rel="stylesheet" type="text/css" href="style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-<script>
+<script src="vText.js"></script>
+<script src="app.js"></script>
 
-var vText = {
-    props: ['value'],
-    template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" :value="value"></textarea>`,
-    directives: {
-        focus: {
-            inserted: function (el) {
-                el.focus()
-            }
-        }
-    },
-    methods: {
-        rows() {
-            if (!this.$el) return 1; //new block on the block
-            this.$el.setAttribute("rows", "1");
-            var computed = window.getComputedStyle(this.$el);
-            var lh = parseInt(computed.getPropertyValue('line-height'));
-            var rows = parseInt(this.$el.scrollHeight / lh);
-            this.$el.setAttribute("rows", rows);
-            return rows;
-        },
-        onInput(event) {
-            this.$emit('input', event.target.value);
+</body>
 
-            this.rows();
-        },
-        onEnter(event) {
-            if (this.value == "") return;
-            this.$emit('send');
-            this.$el.setAttribute("rows", 1);
-        }
-    }
-}
-
-var app = new Vue({
-    el: "#chat",
-    data: {
-        currentMSG: "",
-        messages: [],
-        msgUrl: "messages.json",
-        author: 1,
-        database: {}
-    },
-    methods: {
-        send() {
-            var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
-            this.upload(msg);
-            msg.status = "pending";
-            this.messages.push(msg);
-            this.currentMSG = "";
-        },
-        formattedTime(time) {
-            var date = new Date(time);
-            return date.getHours() + "." + date.getMinutes() + "." + date.getSeconds();
-        },
-        async upload(msg) {
-            try {
-                const req = await this.database.ref('messages').push().set(msg);
-                this.messages[vm.messages.length-1].status = "sent";
-            }
-            catch(error) {
-                console.error(error)
-                this.messages[vm.messages.length-1].status = "error";
-            }
-        },
-        async getMessages() {
-            var data = (await this.database.ref('messages').once('value')).val();
-            return Object.values(data);
-        },
-        getDatabase() {
-            var firebaseConfig = {
-                apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
-                authDomain: "solo-poke.firebaseapp.com",
-                databaseURL: "https://solo-poke.firebaseio.com",
-                projectId: "solo-poke",
-                storageBucket: "solo-poke.appspot.com",
-                messagingSenderId: "583889049222",
-                appId: "1:583889049222:web:5b43974b1605558c386307"
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            return firebase.database();
-        },
-        autoScroll() {
-            var objDiv = document.getElementById("messages");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        }
-    },
-    components: {
-        'v-text': vText
-    },
-    async mounted() {
-        var firebaseConfig = {
-            apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
-            authDomain: "solo-poke.firebaseapp.com",
-            databaseURL: "https://solo-poke.firebaseio.com",
-            projectId: "solo-poke",
-            storageBucket: "solo-poke.appspot.com",
-            messagingSenderId: "583889049222",
-            appId: "1:583889049222:web:5b43974b1605558c386307"
-        };
-        firebase.initializeApp(firebaseConfig);
-        this.database = firebase.database();
-
-        this.messages = await this.getMessages();
-    },
-    updated() {
-        this.autoScroll();
-    }
-})
-
-</script>
