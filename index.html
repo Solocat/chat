@@ -1,7 +1,7 @@
 <body>
 <content id="chat">
     <ul id="messages">
-        <li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.pending == true}">
+        <li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.status == 'pending', error: m.status == 'error'}">
             <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
             <p>{{m.text}}</p>
         </li>
@@ -15,6 +15,8 @@
 </content>
 
 </body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
@@ -71,7 +73,7 @@ var app = new Vue({
         send() {
             var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
             this.upload(msg);
-            msg.pending = true;
+            msg.status = "pending";
             this.messages.push(msg);
             this.currentMSG = "";
         },
@@ -81,24 +83,39 @@ var app = new Vue({
         },
         upload(msg) {
             var vm = this;
-            this.database.ref('messages/' + this.messages.length).set({
-                text: msg.text, time: msg.time, author: msg.author
-            }).then(function() {
-                vm.messages[vm.messages.length-1].pending = false;
+            this.database.ref('messages').push().set(msg)
+            .then(function(snapshot) {
+                vm.messages[vm.messages.length-1].status = "sent";
+            }, function(error) {
+                console.error(error);
+                vm.messages[vm.messages.length-1].status = "error";
             });
         },
         getMessages() {
             var vm = this;
             this.database.ref('messages').once('value').then(function(snapshot) {
-                if (vm.messages) vm.messages = snapshot.val();
+                vm.messages = Object.values(snapshot.val());
             });
+        },
+        getDatabase() {
+            var firebaseConfig = {
+                apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
+                authDomain: "solo-poke.firebaseapp.com",
+                databaseURL: "https://solo-poke.firebaseio.com",
+                projectId: "solo-poke",
+                storageBucket: "solo-poke.appspot.com",
+                messagingSenderId: "583889049222",
+                appId: "1:583889049222:web:5b43974b1605558c386307"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            return firebase.database();
         }
     },
     components: {
         'v-text': vText
     },
     mounted() {
-        // Your web app's Firebase configuration
         var firebaseConfig = {
             apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
             authDomain: "solo-poke.firebaseapp.com",
@@ -108,7 +125,6 @@ var app = new Vue({
             messagingSenderId: "583889049222",
             appId: "1:583889049222:web:5b43974b1605558c386307"
         };
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         this.database = firebase.database();
 
@@ -119,79 +135,3 @@ var app = new Vue({
 })
 
 </script>
-
-<style>
-    body {
-        background-color: #222;
-        font-size: 18px;
-        line-height: 1.5;
-    }
-
-    content {
-        width: 100%;
-        max-width: 500px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-    ul#messages {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        width: 100%;
-        flex-grow: 1;
-        overflow-y: scroll;
-    }
-
-    .message {
-        background-color: #8bff92;
-        padding: 0.5em 1em;
-        border-radius: 1em 1em 1em 0em;
-        margin-bottom: 1em;
-    }
-    .message+.message {
-        /*border-radius: 0;*/
-    }
-    .message.pending {
-      background-color: red;
-    }
-    .message.right {
-        background-color: aqua;
-        align-self: flex-end;
-        border-radius: 1em 0em 1em 1em;
-    }
-    .message p {
-        margin: 0;
-    }
-    .message .time {
-        text-align: end;
-        font-size: 14px;
-    }
-
-    textarea {
-        flex-shrink: 0;
-        outline: none;
-        padding: 0.5em;
-        border: 0;
-        border-radius: 1em;
-        background-color: #8bff92;
-        /*position: fixed;*/
-        /*line-height: 20px !important;*/
-        bottom: 0;
-        white-space: normal;
-        resize: none;
-        overflow: hidden;
-        display: block;
-        width: 100%;
-        font-size: inherit;
-        font-family: inherit;
-        line-height: inherit;
-    }
-    textarea::placeholder {
-        color: #0008;
-    }
-</style>

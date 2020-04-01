@@ -1,0 +1,76 @@
+body {
+    background-color: #222;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+content {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+ul#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
+.message {
+    background-color: #8bff92;
+    padding: 0.5em 1em;
+    border-radius: 1em 1em 1em 0em;
+    margin-bottom: 1em;
+}
+.message+.message {
+    /*border-radius: 0;*/
+}
+.message.pending {
+  background-color: yellow;
+}
+.message.error {
+    background-color: red;
+}
+.message.right {
+    background-color: aqua;
+    align-self: flex-end;
+    border-radius: 1em 0em 1em 1em;
+}
+.message p {
+    margin: 0;
+}
+.message .time {
+    text-align: end;
+    font-size: 14px;
+}
+
+textarea {
+    flex-shrink: 0;
+    outline: none;
+    padding: 0.5em;
+    border: 0;
+    border-radius: 1em;
+    background-color: #8bff92;
+    /*position: fixed;*/
+    /*line-height: 20px !important;*/
+    bottom: 0;
+    white-space: normal;
+    resize: none;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+}
+textarea::placeholder {
+    color: #0008;
+}
