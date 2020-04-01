@@ -34,17 +34,6 @@ var app = new Vue({
             return Object.values(data);
         },
         getDatabase() {
-            const firebaseConfig = {
-                apiKey: "AIzaSyCCMm7YgbtauAz3tx7Qq8gzwbCfLy_Gsjg",
-                authDomain: "solo-poke.firebaseapp.com",
-                databaseURL: "https://solo-poke.firebaseio.com",
-                projectId: "solo-poke",
-                storageBucket: "solo-poke.appspot.com",
-                messagingSenderId: "583889049222",
-                appId: "1:583889049222:web:5b43974b1605558c386307"
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
             return firebase.database();
         },
         autoScroll() {
