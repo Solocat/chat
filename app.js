@@ -4,7 +4,7 @@ var app = new Vue({
         currentMSG: "",
         messages: [],
         msgUrl: "messages.json",
-        author: 1,
+        author: uid,
         database: {}
     },
     methods: {
