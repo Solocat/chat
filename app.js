@@ -40,7 +40,6 @@ var app = new Vue({
         {
             try {
                 var result = await firebase.auth().signInWithPopup(provider);
-                console.log(result);
                 return result.user.uid;
             }
             catch (error) {
@@ -60,7 +59,6 @@ var app = new Vue({
         this.database = firebase.database();
 
         var provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().useDeviceLanguage();
         this.author = await this.authenticate(provider);
 
         //this.messages = await this.getMessages();
