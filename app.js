@@ -70,6 +70,8 @@ var app = new Vue({
         'v-text': vText
     },
     async mounted() {
+        const vm = this;
+
         this.database = firebase.database();
 
         var provider = new firebase.auth.GoogleAuthProvider();
@@ -86,7 +88,7 @@ var app = new Vue({
 
         me.on('value', function(data) {
             console.log(data.val());
-            this.other.writing = data.val().writing;
+            vm.other.writing = data.val().writing;
         });
 
         var users = await this.getUsers();
@@ -97,7 +99,7 @@ var app = new Vue({
 
         //this.messages = await this.getMessages();
 
-        const vm = this;
+        
         var messages = this.database.ref('messages').limitToLast(10);
         /*messages.on('value', function(snapshot) {
             console.log(snapshot.val());
