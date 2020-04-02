@@ -84,11 +84,16 @@ var app = new Vue({
             this.users = data.val();
         });
 
+        me.on('value', function(data) {
+            console.log(data);
+        });
+
         var users = await this.getUsers();
         var keys = Object.keys(users);
         var values = Object.values(users);
         console.log(values[1]);
-        this.other = values[1];
+        //this.other.name = values[1].name;
+        //this.other.typing = values[1].writing;
 
         //this.messages = await this.getMessages();
 
