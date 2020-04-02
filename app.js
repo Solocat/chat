@@ -61,6 +61,16 @@ var app = new Vue({
         var provider = new firebase.auth.GoogleAuthProvider();
         this.author = await this.authenticate(provider);
 
+        var users = this.database.ref('users');
+        var me = this.database.ref('users/' + this.author);
+
+        this.database.ref('users/' + this.author + '/online').set("true");
+
+        users.on('child_changed', function(data) {
+            console.log(data.val());
+        });
+
+        debugger;
         //this.messages = await this.getMessages();
 
         const vm = this;
