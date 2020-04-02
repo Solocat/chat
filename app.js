@@ -8,7 +8,8 @@ var app = new Vue({
         database: {},
         other: {
             name: "",
-            typing: false
+            writing: false,
+            online: false
         },
         users: {}
     },
@@ -80,11 +81,15 @@ var app = new Vue({
         this.database.ref('users/' + this.author + '/online').set("true");
 
         users.on('value', function(data) {
-            console.log(data.val());
             this.users = data.val();
         });
 
-        //this.users = await this.getUsers();
+        var users = await this.getUsers();
+        var keys = Object.keys(users);
+        var values = Object.values(users);
+        console.log(values[1]);
+        this.other = values[1];
+
         debugger;
         //this.messages = await this.getMessages();
 

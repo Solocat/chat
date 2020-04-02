@@ -16,9 +16,7 @@
         </li>
     </ul>
 
-    <div v-for="user in users">
-        <p v-show="user.writing">{{user.name}} is typing...</p>
-    </div>
+    <p v-show="other.writing">{{other.name}} is typing...</p>
 
     <v-text v-model="currentMSG" @send="send()" @input="onInput()"></v-text>
 </content>
