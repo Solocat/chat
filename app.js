@@ -15,6 +15,11 @@ var app = new Vue({
             //this.messages.push(msg);
             this.currentMSG = "";
         },
+        onInput() {
+            var is = (this.currentMSG.length > 0);
+            console.log(is);
+            this.database.ref('users/' + this.author + '/writing').set(is);
+        },
         formattedTime(time) {
             var date = new Date(time);
             return date.getHours() + "." + date.getMinutes() + "." + date.getSeconds();
@@ -81,7 +86,6 @@ var app = new Vue({
         });*/
 
         messages.on('child_added', function(data) {
-            console.log(data.val());
             vm.messages.push(data.val());
         });
 
