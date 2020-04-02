@@ -5,7 +5,12 @@ var app = new Vue({
         messages: [],
         msgUrl: "messages.json",
         author: "",
-        database: {}
+        database: {},
+        other: {
+            name: "",
+            typing: false
+        },
+        users: {}
     },
     methods: {
         send() {
@@ -37,6 +42,10 @@ var app = new Vue({
         async getMessages() {
             const data = (await this.database.ref('messages').once('value')).val();
             return Object.values(data);
+        },
+        async getUsers() {
+            const data = (await this.database.ref('users').once('value')).val();
+            return data;
         },
         getDatabase() {
             return firebase.database();
@@ -72,9 +81,10 @@ var app = new Vue({
         this.database.ref('users/' + this.author + '/online').set("true");
 
         users.on('child_changed', function(data) {
-            console.log(data.val());
+            console.log(data);
         });
 
+        this.users = this.getUsers();
         debugger;
         //this.messages = await this.getMessages();
 

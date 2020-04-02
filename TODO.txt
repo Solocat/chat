@@ -4,3 +4,4 @@ show who's online
 show who's writing
 grab user's attention
 allow changing user's name
+icon

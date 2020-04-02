@@ -16,6 +16,10 @@
         </li>
     </ul>
 
+    <div v-for="user in users">
+        <p v-show="user.writing">{{user.name}} is typing...</p>
+    </div>
+
     <v-text v-model="currentMSG" @send="send()" @input="onInput()"></v-text>
 </content>
 
