@@ -14,9 +14,11 @@
             <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
             <p>{{m.text}}</p>
         </li>
+        <p v-show="me.writing" style="color:white;">{{me.name}} is typing...</p>
+        <p v-show="friend.writing" style="color:white;">{{friend.name}} is typing...</p>
     </ul>
 
-    <p v-show="other.writing">{{other.name}} is typing...</p>
+
 
     <v-text v-model="currentMSG" @send="send()" @input="onInput()"></v-text>
 </content>

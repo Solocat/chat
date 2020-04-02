@@ -6,12 +6,16 @@ var app = new Vue({
         msgUrl: "messages.json",
         author: "",
         database: {},
-        other: {
+        me: {
             name: "",
             writing: false,
             online: false
         },
-        users: {}
+        friend: {
+            name: "",
+            writing: false,
+            online: false
+        }
     },
     methods: {
         send() {
@@ -20,6 +24,7 @@ var app = new Vue({
             msg.status = "pending";
             //this.messages.push(msg);
             this.currentMSG = "";
+            this.onInput();
         },
         onInput() {
             var is = (this.currentMSG.length > 0);
@@ -77,35 +82,37 @@ var app = new Vue({
         var provider = new firebase.auth.GoogleAuthProvider();
         this.author = await this.authenticate(provider);
 
-        var users = this.database.ref('users');
-        var me = this.database.ref('users/' + this.author);
+        var userdata = await this.getUsers();
+        var keys = Object.keys(userdata);
+        var values = Object.values(userdata);
 
+        //this.author = keys[1];
         this.database.ref('users/' + this.author + '/online').set("true");
 
-        users.on('value', function(data) {
-            this.users = data.val();
+        var friendid;
+        keys.forEach(key => {
+            if (key != this.author) {
+                friendid = key;
+            }
         });
 
-        me.on('value', function(data) {
-            console.log(data.val());
-            vm.other.writing = data.val().writing;
+        this.friend.name = userdata[friendid].name;
+        this.me.name = userdata[this.author].name;
+
+
+        //var users = this.database.ref('users');
+        var me = this.database.ref('users/' + this.author);
+        var friend = this.database.ref('users/' + friendid);
+
+        friend.on('child_changed', function(data) {
+            vm.friend[data.key] = data.val();
         });
 
-        var users = await this.getUsers();
-        var keys = Object.keys(users);
-        var values = Object.values(users);
-        //this.other.name = values[1].name;
-        //this.other.typing = values[1].writing;
+        me.on('child_changed', function(data) {
+            vm.me[data.key] = data.val();
+        });
 
-        //this.messages = await this.getMessages();
-
-        
         var messages = this.database.ref('messages').limitToLast(10);
-        /*messages.on('value', function(snapshot) {
-            console.log(snapshot.val());
-            vm.messages = Object.values(snapshot.val());
-        });*/
-
         messages.on('child_added', function(data) {
             vm.messages.push(data.val());
         });
