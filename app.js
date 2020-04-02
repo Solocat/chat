@@ -86,12 +86,12 @@ var app = new Vue({
 
         me.on('value', function(data) {
             console.log(data.val());
+            this.other = data.val();
         });
 
         var users = await this.getUsers();
         var keys = Object.keys(users);
         var values = Object.values(users);
-        console.log(values[1]);
         //this.other.name = values[1].name;
         //this.other.typing = values[1].writing;
 
