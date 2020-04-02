@@ -14,8 +14,8 @@
             <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
             <p>{{m.text}}</p>
         </li>
-        <li class="message" v-show="me.writing">{{me.name}} is typing...</li>
-        <div class="message right" v-show="friend.writing">{{friend.name}} is typing...</div>
+        <li class="message" v-show="me.writing" style="opacity:0.5">{{me.name}} is typing...</li>
+        <li class="message right" v-show="friend.writing" style="opacity:0.5">{{friend.name}} is typing...</li>
     </ul>
 
 
