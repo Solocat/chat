@@ -81,9 +81,10 @@ var app = new Vue({
 
         users.on('value', function(data) {
             console.log(data.val());
+            this.users = data.val();
         });
 
-        this.users = await this.getUsers();
+        //this.users = await this.getUsers();
         debugger;
         //this.messages = await this.getMessages();
 
