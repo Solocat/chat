@@ -85,7 +85,7 @@ var app = new Vue({
         });
 
         me.on('value', function(data) {
-            console.log(data);
+            console.log(data.val());
         });
 
         var users = await this.getUsers();
