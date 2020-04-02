@@ -90,7 +90,6 @@ var app = new Vue({
         console.log(values[1]);
         this.other = values[1];
 
-        debugger;
         //this.messages = await this.getMessages();
 
         const vm = this;
