@@ -80,8 +80,8 @@ var app = new Vue({
 
         this.database.ref('users/' + this.author + '/online').set("true");
 
-        users.on('child_changed', function(data) {
-            console.log(data);
+        users.on('value', function(data) {
+            console.log(data.val());
         });
 
         this.users = this.getUsers();
