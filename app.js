@@ -22,7 +22,6 @@ var app = new Vue({
         },
         onInput() {
             var is = (this.currentMSG.length > 0);
-            console.log(is);
             this.database.ref('users/' + this.author + '/writing').set(is);
         },
         formattedTime(time) {
@@ -84,7 +83,7 @@ var app = new Vue({
             console.log(data.val());
         });
 
-        this.users = this.getUsers();
+        this.users = await this.getUsers();
         debugger;
         //this.messages = await this.getMessages();
 
