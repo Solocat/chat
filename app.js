@@ -60,13 +60,13 @@ var app = new Vue({
     async mounted() {
         const vm = this;
 
-        //this.author = await backend.authenticate();
+        this.author = await backend.authenticate();
 
         var userdata = await backend.getUsers();
         var keys = Object.keys(userdata);
         //var values = Object.values(userdata);
 
-        this.author = keys[1];
+        //this.author = keys[1];
         backend.database.ref('users/' + this.author + '/online').set(true);
 
         var friendid;
