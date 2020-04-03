@@ -3,9 +3,7 @@ var app = new Vue({
     data: {
         currentMSG: "",
         messages: [],
-        msgUrl: "messages.json",
         author: "",
-        database: {},
         me: {
             name: "",
             writing: false,
@@ -23,7 +21,7 @@ var app = new Vue({
             this.onInput();
         },
         onChangeName(name) {
-            this.database.ref('users/' + this.author + '/name').set(name);
+            backend.database.ref('users/' + this.author + '/name').set(name);
             this.clearField();
         },
         send() {
@@ -35,7 +33,7 @@ var app = new Vue({
         },
         onInput() {
             var is = (this.currentMSG.length > 0);
-            this.database.ref('users/' + this.author + '/writing').set(is);
+            backend.database.ref('users/' + this.author + '/writing').set(is);
         },
         formattedTime(time) {
             var date = new Date(time);
@@ -43,34 +41,12 @@ var app = new Vue({
         },
         async upload(msg) {
             try {
-                await this.database.ref('messages').push().set(msg);
+                await backend.database.ref('messages').push().set(msg);
                 //this.messages[this.messages.length-1].status = "sent";
             }
             catch(error) {
                 console.error(error)
                 //this.messages[this.messages.length-1].status = "error";
-            }
-        },
-        async getMessages() {
-            const data = (await this.database.ref('messages').once('value')).val();
-            return Object.values(data);
-        },
-        async getUsers() {
-            const data = (await this.database.ref('users').once('value')).val();
-            return data;
-        },
-        getDatabase() {
-            return firebase.database();
-        },
-        async authenticate(provider)
-        {
-            try {
-                var result = await firebase.auth().signInWithPopup(provider);
-                return result.user.uid;
-            }
-            catch (error) {
-                console.log(error);
-                return null;
             }
         },
         autoScroll() {
@@ -84,17 +60,14 @@ var app = new Vue({
     async mounted() {
         const vm = this;
 
-        this.database = firebase.database();
+        //this.author = await backend.authenticate();
 
-        var provider = new firebase.auth.GoogleAuthProvider();
-        this.author = await this.authenticate(provider);
-
-        var userdata = await this.getUsers();
+        var userdata = await backend.getUsers();
         var keys = Object.keys(userdata);
-        var values = Object.values(userdata);
+        //var values = Object.values(userdata);
 
-        //this.author = keys[1];
-        this.database.ref('users/' + this.author + '/online').set(true);
+        this.author = keys[1];
+        backend.database.ref('users/' + this.author + '/online').set(true);
 
         var friendid;
         keys.forEach(key => {
@@ -106,10 +79,9 @@ var app = new Vue({
         this.friend.name = userdata[friendid].name;
         this.me.name = userdata[this.author].name;
 
-
-        //var users = this.database.ref('users');
-        var me = this.database.ref('users/' + this.author);
-        var friend = this.database.ref('users/' + friendid);
+        var users = backend.database.ref('users');
+        var me = backend.database.ref('users/' + this.author);
+        var friend = backend.database.ref('users/' + friendid);
 
         friend.on('child_changed', function(data) {
             vm.friend[data.key] = data.val();
@@ -118,8 +90,7 @@ var app = new Vue({
             vm.me[data.key] = data.val();
         });
 
-
-        var messages = this.database.ref('messages').limitToLast(10);
+        var messages = backend.database.ref('messages').limitToLast(10);
         messages.on('child_added', function(data) {
             vm.messages.push(data.val());
         });
