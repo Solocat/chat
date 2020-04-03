@@ -20,12 +20,18 @@ var vText = {
         },
         onInput(event) {
             this.$emit('input', event.target.value);
-
             this.rows();
         },
-        onEnter(event) {
+        onEnter() {
             if (this.value == "") return;
-            this.$emit('send');
+
+            const cmd = "/name ";
+            if (this.value.startsWith(cmd)) {
+                var name = this.value.replace(cmd, "");
+                this.$emit('change-name', name);
+            }
+            else this.$emit('send');
+
             this.$el.setAttribute("rows", 1);
         }
     }

@@ -1,6 +1,8 @@
 show some timestamps
 group messages
+show who's actively typing
 show who's online
+animate bubbles
 grab user's attention
 allow changing user's name
 icon

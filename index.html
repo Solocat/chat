@@ -19,9 +19,19 @@
         <li class="message right" v-show="friend.writing" style="opacity:0.5">{{friend.name}} is typing...</li>
     </ul>
 
+    <v-text v-model="currentMSG" @send="send" @input="onInput" @change-name="onChangeName"></v-text>
 
+    <footer>
+        <span>
+            <span class="onlineicon" :class="{online: me.online}">&#x2B24</span>
+            {{me.name}}
+        </span>
+        <span>
+            <span class="onlineicon" :class="{online: friend.online}">&#x2764</span>
+            {{friend.name}}
+        </span>
+    </footer>
 
-    <v-text v-model="currentMSG" @send="send()" @input="onInput()"></v-text>
 </content>
 
 

@@ -76,3 +76,13 @@ textarea {
 textarea::placeholder {
     color: #0008;
 }
+
+footer {
+    color: white;
+}
+footer .onlineicon {
+    color: #8bff92;
+}
+footer .onlineicon.online {
+    color: #8bff92;
+}

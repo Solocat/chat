@@ -18,13 +18,20 @@ var app = new Vue({
         }
     },
     methods: {
+        clearField() {
+            this.currentMSG = "";
+            this.onInput();
+        },
+        onChangeName(name) {
+            this.database.ref('users/' + this.author + '/name').set(name);
+            this.clearField();
+        },
         send() {
             var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
             this.upload(msg);
             msg.status = "pending";
             //this.messages.push(msg);
-            this.currentMSG = "";
-            this.onInput();
+            this.clearField();
         },
         onInput() {
             var is = (this.currentMSG.length > 0);
@@ -87,7 +94,7 @@ var app = new Vue({
         var values = Object.values(userdata);
 
         //this.author = keys[1];
-        this.database.ref('users/' + this.author + '/online').set("true");
+        this.database.ref('users/' + this.author + '/online').set(true);
 
         var friendid;
         keys.forEach(key => {
@@ -107,10 +114,10 @@ var app = new Vue({
         friend.on('child_changed', function(data) {
             vm.friend[data.key] = data.val();
         });
-
         me.on('child_changed', function(data) {
             vm.me[data.key] = data.val();
         });
+
 
         var messages = this.database.ref('messages').limitToLast(10);
         messages.on('child_added', function(data) {
