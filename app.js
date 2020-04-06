@@ -51,7 +51,18 @@ var app = new Vue({
         },
         autoScroll() {
             var objDiv = document.getElementById("messages");
-            objDiv.scrollTop = objDiv.scrollHeight;
+            //objDiv.scrollTop = objDiv.scrollHeight;
+
+            //objDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+            var top = objDiv.scrollTop;
+            function frame() {
+                top += 3;
+                objDiv.scrollTop = top
+                if (top  >= objDiv.scrollHeight - objDiv.clientHeight)
+                    clearInterval(id)
+            }
+            var id = setInterval(frame, 10);
         }
     },
     components: {
@@ -60,13 +71,13 @@ var app = new Vue({
     async mounted() {
         const vm = this;
 
-        this.author = await backend.authenticate();
+        //this.author = await backend.authenticate();
 
         var userdata = await backend.getUsers();
         var keys = Object.keys(userdata);
         //var values = Object.values(userdata);
 
-        //this.author = keys[1];
+        this.author = keys[1];
         backend.database.ref('users/' + this.author + '/online').set(true);
 
         var friendid;
