@@ -16,6 +16,24 @@ var app = new Vue({
         }
     },
     methods: {
+        getGroups() {
+            if (this.messages.length == 0) return null;
+
+            var groups = [];
+            groups.push({ author: this.messages[0].author, messages : [] });
+            var group = groups[groups.length-1];
+
+            var lastTime = this.messages[0].time;
+            this.messages.forEach(msg => {
+                if (group.author != msg.author || msg.time >= lastTime + 3*60*1000) {
+                    groups.push({ author: msg.author, messages : [] });
+                    group = groups[groups.length-1];
+                }
+                group.messages.push(msg);
+                lastTime = msg.time;
+            });
+            return groups;
+        },
         clearField() {
             this.currentMSG = "";
             this.onInput();
@@ -78,6 +96,7 @@ var app = new Vue({
         //var values = Object.values(userdata);
 
         this.author = keys[1];
+        //this.author = "JCpjs90hxpSxfRSvJC1CC4Gpba62";
         backend.database.ref('users/' + this.author + '/online').set(true);
 
         var friendid;

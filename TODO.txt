@@ -1,9 +1,9 @@
 show some timestamps
 group messages
-show who's actively typing
 show who's online
 animate bubbles
 grab user's attention
 animate icon?
 
 allow changing user's name
+show who's actively typing

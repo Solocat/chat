@@ -11,9 +11,13 @@
 <body>
 <content id="chat">
     <ul id="messages">
-        <li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.status == 'pending', error: m.status == 'error'}">
+        <!--<li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.status == 'pending', error: m.status == 'error'}">
             <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
             <p>{{m.text}}</p>
+        </li>-->
+        <li class="message" v-for="g in getGroups()" :class="{right: g.author != author}">
+            <header class="time">{{formattedTime(g.messages[0].time)}}</header>
+            <div v-for="m in g.messages">{{m.text}}</div>
         </li>
         <li class="message" v-show="me.writing" style="opacity:0.5">{{me.name}} is typing...</li>
         <li class="message right" v-show="friend.writing" style="opacity:0.5">{{friend.name}} is typing...</li>
