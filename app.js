@@ -96,7 +96,6 @@ var app = new Vue({
         //var values = Object.values(userdata);
 
         this.author = keys[1];
-        //this.author = "JCpjs90hxpSxfRSvJC1CC4Gpba62";
         backend.database.ref('users/' + this.author + '/online').set(true);
 
         var friendid;
