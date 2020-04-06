@@ -4,5 +4,6 @@ show who's actively typing
 show who's online
 animate bubbles
 grab user's attention
+animate icon?
+
 allow changing user's name
-icon
