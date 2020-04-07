@@ -133,7 +133,7 @@ var app = new Vue({
             vm.messages.push(data.val());
         });
 
-        backend.trackPresence(this.author);
+        await backend.trackPresence(this.author);
     },
     updated() {
         this.autoScroll();

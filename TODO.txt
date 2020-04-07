@@ -1,6 +1,7 @@
 grab user's attention
 animate icon?
 msg has been read
+optimize grouping
 
 allow changing user's name
 show who's actively typing
