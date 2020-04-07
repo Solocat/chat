@@ -133,7 +133,7 @@ var app = new Vue({
         var messages = backend.database.ref('messages').limitToLast(20);
         messages.on('child_added', function(data) {
             vm.messages.push(data.val());
-            var audio = new Audio('wau.wav');
+            var audio = new Audio('wua.wav');
             audio.play();
         });
 
