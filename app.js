@@ -25,7 +25,7 @@ var app = new Vue({
 
             var lastTime = this.messages[0].time;
             this.messages.forEach(msg => {
-                if (group.author != msg.author || msg.time >= lastTime + 3*60*1000) {
+                if (group.author != msg.author || msg.time >= lastTime + 2*60*1000) {
                     groups.push({ author: msg.author, messages : [] });
                     group = groups[groups.length-1];
                 }
@@ -55,7 +55,12 @@ var app = new Vue({
         },
         formattedTime(time) {
             var date = new Date(time);
-            return date.getHours() + "." + date.getMinutes() + "." + date.getSeconds();
+            var today = new Date();
+
+            if (date.getDate == today.getDate) {
+                return date.toLocaleTimeString();
+            }
+            else return date.toLocaleString();
         },
         async upload(msg) {
             try {

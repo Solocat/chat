@@ -27,15 +27,20 @@ ul#messages {
     width: 100%;
     flex-grow: 1;
     overflow-y: scroll;
+    border-radius: 1em 0em 1em 0em;
+    background-color: #333;
 }
 
 .bubble {
     background-color: #8bff92;
-    padding: 0.5em 1em;
+    padding: 0.4em 1em;
     border-radius: 1em 1em 1em 0em;
-    margin-bottom: 1em;
+    
     display: flex;
     flex-direction: column;
+}
+.bubble+.bubble {
+    margin-top: 0.7em;
 }
 .bubble.right {
     background-color: aqua;
@@ -51,7 +56,7 @@ ul#messages {
 }
 
 .message.pending {
-  background-color: yellow;
+    background-color: yellow;
 }
 .message.error {
     background-color: red;
