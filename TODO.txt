@@ -1,9 +1,10 @@
-show who's online
 grab user's attention
 animate icon?
 msg has been read
 
 allow changing user's name
 show who's actively typing
-show timestamps on hover?
 animate bubbles
+show who's online
+
+show timestamps on hover?

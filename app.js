@@ -4,6 +4,7 @@ var app = new Vue({
         currentMSG: "",
         messages: [],
         author: "",
+        writeTimeout: {},
         me: {
             name: "",
             writing: false,
@@ -50,8 +51,18 @@ var app = new Vue({
             this.clearField();
         },
         onInput() {
+            clearTimeout(this.writeTimeout);
             var is = (this.currentMSG.length > 0);
             backend.database.ref('users/' + this.author + '/writing').set(is);
+
+            if (is) {
+                var vm = this;
+                function waitInput() {
+                    backend.database.ref('users/' + vm.author + '/writing').set(false);
+                    clearTimeout(this.writeTimeout)
+                }
+                this.writeTimeout = setTimeout(waitInput, 1000);
+            }
         },
         formattedTime(time) {
             var date = new Date(time);
