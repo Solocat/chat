@@ -95,8 +95,6 @@ var app = new Vue({
         var keys = Object.keys(userdata);
 
         this.author = keys[1];
-        backend.database.ref('users/' + this.author + '/online').set(true);
-        this.me.online = true;
 
         var friendid;
         keys.forEach(key => {
@@ -105,8 +103,8 @@ var app = new Vue({
             }
         });
 
-        this.friend.name = userdata[friendid].name;
-        this.me.name = userdata[this.author].name;
+        this.friend = userdata[friendid];
+        this.me = userdata[this.author];
 
         var users = backend.database.ref('users');
         var me = backend.database.ref('users/' + this.author);
@@ -119,10 +117,12 @@ var app = new Vue({
             vm.me[data.key] = data.val();
         });
 
-        var messages = backend.database.ref('messages').limitToLast(10);
+        var messages = backend.database.ref('messages').limitToLast(20);
         messages.on('child_added', function(data) {
             vm.messages.push(data.val());
         });
+
+        backend.trackPresence(this.author);
     },
     updated() {
         this.autoScroll();
