@@ -105,7 +105,9 @@ var app = new Vue({
         var userdata = await backend.getUsers();
         var keys = Object.keys(userdata);
 
-        //this.author = keys[1];
+        if (this.author == null) {
+            this.author = keys[1];
+        }
 
         var friendid;
         keys.forEach(key => {
