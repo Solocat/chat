@@ -4,6 +4,7 @@ show who's online
 animate bubbles
 grab user's attention
 animate icon?
+time templating
 
 allow changing user's name
 show who's actively typing

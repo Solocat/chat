@@ -29,30 +29,35 @@ ul#messages {
     overflow-y: scroll;
 }
 
-.message {
+.bubble {
     background-color: #8bff92;
     padding: 0.5em 1em;
     border-radius: 1em 1em 1em 0em;
     margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
 }
-/*.message+.message {
-    border-radius: 0;
-}*/
+.bubble.right {
+    background-color: aqua;
+    align-self: flex-end;
+    border-radius: 1em 0em 1em 1em;
+}
+.bubble p {
+    margin: 0;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 .message.pending {
   background-color: yellow;
 }
 .message.error {
     background-color: red;
 }
-.message.right {
-    background-color: aqua;
-    align-self: flex-end;
-    border-radius: 1em 0em 1em 1em;
-}
-.message p {
-    margin: 0;
-}
-.message .time {
+
+.bubble .time {
     font-size: 14px;
 }
 
