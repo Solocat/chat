@@ -15,8 +15,8 @@ var app = new Vue({
             online: false
         }
     },
-    methods: {
-        getGroups() {
+    computed: {
+        messageGroups() {
             if (this.messages.length == 0) return null;
 
             var groups = [];
@@ -33,7 +33,9 @@ var app = new Vue({
                 lastTime = msg.time;
             });
             return groups;
-        },
+        }
+    },
+    methods: {
         clearField() {
             this.currentMSG = "";
             this.onInput();
@@ -45,8 +47,6 @@ var app = new Vue({
         send() {
             var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
             this.upload(msg);
-            msg.status = "pending";
-            //this.messages.push(msg);
             this.clearField();
         },
         onInput() {
@@ -65,18 +65,13 @@ var app = new Vue({
         async upload(msg) {
             try {
                 await backend.database.ref('messages').push().set(msg);
-                //this.messages[this.messages.length-1].status = "sent";
             }
             catch(error) {
                 console.error(error)
-                //this.messages[this.messages.length-1].status = "error";
             }
         },
         autoScroll() {
             var objDiv = document.getElementById("messages");
-            //objDiv.scrollTop = objDiv.scrollHeight;
-
-            //objDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
             var top = objDiv.scrollTop;
             function frame() {
@@ -98,10 +93,10 @@ var app = new Vue({
 
         var userdata = await backend.getUsers();
         var keys = Object.keys(userdata);
-        //var values = Object.values(userdata);
 
         this.author = keys[1];
         backend.database.ref('users/' + this.author + '/online').set(true);
+        this.me.online = true;
 
         var friendid;
         keys.forEach(key => {
@@ -128,7 +123,6 @@ var app = new Vue({
         messages.on('child_added', function(data) {
             vm.messages.push(data.val());
         });
-
     },
     updated() {
         this.autoScroll();

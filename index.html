@@ -12,17 +12,12 @@
 <body>
 <content id="chat">
     <ul id="messages">
-        <!--<li class="message" v-for="m in messages" :class="{right: m.author != author, pending: m.status == 'pending', error: m.status == 'error'}">
-            <header class="time" v-if="false">{{formattedTime(m.time)}}</header>
-            <p>{{m.text}}</p>
-        </li>-->
-        <li class="bubble" v-for="g in getGroups()" :class="{right: g.author != author}">
+        <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}">
             <header class="time">{{formattedTime(g.messages[0].time)}}</header>
             <p v-for="m in g.messages">{{m.text}}</p>
         </li>
-        
     </ul>
-    <span class="bubble right" v-show="true" style="opacity:0.5" :class="{hidden: !me.writing}">{{friend.name}} is typing...</span>
+    <span class="bubble right" style="opacity:0.5" :class="{hidden: !me.writing}">{{friend.name}} is typing...</span>
 
     <v-text v-model="currentMSG" @send="send" @input="onInput" @change-name="onChangeName"></v-text>
 
@@ -40,15 +35,10 @@
 </content>
 
 
-<!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-<script>
-    var backend = {};
-</script>
 
 <script src="backend.js"></script>
 <script src="vText.js"></script>

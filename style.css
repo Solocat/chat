@@ -13,7 +13,7 @@ content#chat {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 12px;
+    padding: 1em;
     margin: auto;
 }
 ul#messages {
@@ -28,7 +28,7 @@ ul#messages {
     flex-grow: 1;
     overflow-y: scroll;
     border-radius: 1em 0em 1em 0em;
-    background-color: #333;
+    background-color: #2b2b2b;
 }
 
 .bubble {
@@ -50,21 +50,15 @@ ul#messages {
 .bubble p {
     margin: 0;
 }
+.bubble .time {
+    font-size: 14px;
+}
 
 .hidden {
     visibility: hidden;
 }
 
-.message.pending {
-    background-color: yellow;
-}
-.message.error {
-    background-color: red;
-}
 
-.bubble .time {
-    font-size: 14px;
-}
 
 textarea {
     flex-shrink: 0;
@@ -90,15 +84,8 @@ footer {
     color: white;
 }
 footer .onlineicon {
-    color: #8bff92;
+    color: #DDD;
 }
 footer .onlineicon.online {
     color: #8bff92;
-}
-
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
 }

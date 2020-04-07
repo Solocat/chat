@@ -1,10 +1,9 @@
-show some timestamps
-group messages
 show who's online
-animate bubbles
 grab user's attention
 animate icon?
-time templating
+msg has been read
 
 allow changing user's name
 show who's actively typing
+show timestamps on hover?
+animate bubbles
