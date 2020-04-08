@@ -22,8 +22,8 @@ var backend = {
             return null;
         }
     },
-    async getMessages() {
-        const data = (await this.database.ref('messages').once('value')).val();
+    async getMessages(count) {
+        const data = (await this.database.ref('messages').limitToLast(count).once('value')).val();
         return Object.values(data);
     },
     async getUsers() {
@@ -39,6 +39,12 @@ var backend = {
                 await status.set(true);
             };
         });
+    },
+    onNewMessage(fn) {
+        var messages = this.database.ref('messages')
+        const startKey = messages.push().key;
+
+        messages.orderByKey().startAt(startKey).on('child_added', fn);
     },
     database: firebase.database()
 }

@@ -130,13 +130,13 @@ var app = new Vue({
             vm.me[data.key] = data.val();
         });
 
-        var messages = backend.database.ref('messages').limitToLast(20);
-        messages.on('child_added', function(data) {
-            vm.messages.push(data.val());
-            var audio = new Audio('fwib2.wav'); //please
-            audio.play();
-        });
 
+        this.messages = await backend.getMessages(20);
+
+        backend.onNewMessage(function(data) {
+            vm.messages.push(data.val());
+            new Audio('fwib2.wav').play();
+        });
         await backend.trackPresence(this.author);
     },
     updated() {
