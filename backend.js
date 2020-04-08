@@ -18,7 +18,7 @@ var backend = {
             return result.user.uid;
         }
         catch (error) {
-            console.log(error);
+            console.warn(error);
             return null;
         }
     },
