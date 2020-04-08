@@ -30,7 +30,7 @@ var backend = {
         const data = (await this.database.ref('users').once('value')).val();
         return data;
     },
-    async trackPresence(uid) {
+    trackPresence(uid) {
         var status = backend.database.ref('users/' + uid + '/online');
 
         this.database.ref('.info/connected').on('value', async function(snapshot) {
@@ -39,6 +39,10 @@ var backend = {
                 await status.set(true);
             };
         });
+    },
+    onUserUpdate(uid, fn) {
+        var user = this.database.ref('users/' + uid);
+        user.on('child_changed', fn);
     },
     onNewMessage(fn) {
         var messages = this.database.ref('messages')

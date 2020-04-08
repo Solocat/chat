@@ -1,11 +1,14 @@
 grab user's attention
 animate icon?
 msg has been read
-optimize grouping
+nicer scrollbar
+more presence statuses
 
 allow changing user's name
 show who's actively typing
 animate bubbles
 show who's online
+optimize grouping
 
 show timestamps on hover?
+fancy is typing effect

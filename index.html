@@ -13,7 +13,7 @@
 <content id="chat">
     <ul id="messages">
         <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}">
-            <header class="time">{{formattedTime(g.messages[0].time)}}</header>
+            <header class="time">{{formattedTime(g.time)}}</header>
             <p v-for="m in g.messages">{{m.text}}</p>
         </li>
     </ul>
@@ -42,6 +42,8 @@
 <script src="backend.js"></script>
 <script src="vText.js"></script>
 <script src="app.js"></script>
+
+<audio id="fwib" src="fwib2.wav"></audio>
 
 </body>
 

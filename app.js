@@ -2,8 +2,8 @@ var app = new Vue({
     el: "#chat",
     data: {
         currentMSG: "",
-        messages: [],
         author: "",
+        messageGroups: [],
         writeTimeout: {},
         me: {
             name: "",
@@ -16,27 +16,23 @@ var app = new Vue({
             online: false
         }
     },
-    computed: {
-        messageGroups() {
-            if (this.messages.length == 0) return null;
-
-            var groups = [];
-            groups.push({ author: this.messages[0].author, messages : [] });
-            var group = groups[groups.length-1];
-
-            var lastTime = this.messages[0].time;
-            this.messages.forEach(msg => {
-                if (group.author != msg.author || msg.time >= lastTime + 2*60*1000) {
-                    groups.push({ author: msg.author, messages : [] });
-                    group = groups[groups.length-1];
-                }
-                group.messages.push(msg);
-                lastTime = msg.time;
-            });
-            return groups;
-        }
-    },
     methods: {
+        addToGroup(msg) {
+            if (this.messageGroups.length == 0) {
+                this.messageGroups.push({ author: msg.author, time: msg.time, messages : [] });
+            }
+            var group = this.messageGroups[this.messageGroups.length-1];
+
+            var lastTime = (group.messages.length > 0) ?
+                group.messages[group.messages.length-1].time :
+                group.time;
+
+            if (group.author != msg.author || msg.time >= lastTime + 60*1000) {
+                this.messageGroups.push({ author: msg.author, time: msg.time, messages : [] });
+                group = this.messageGroups[this.messageGroups.length-1];
+            }
+            group.messages.push(msg);
+        },
         clearField() {
             this.currentMSG = "";
             this.onInput();
@@ -108,36 +104,26 @@ var app = new Vue({
         if (this.author == null) {
             this.author = keys[1];
         }
-
-        var friendid;
-        keys.forEach(key => {
-            if (key != this.author) {
-                friendid = key;
-            }
-        });
-
-        this.friend = userdata[friendid];
         this.me = userdata[this.author];
 
-        var users = backend.database.ref('users');
-        var me = backend.database.ref('users/' + this.author);
-        var friend = backend.database.ref('users/' + friendid);
+        var friendid = this.me.friend;
+        this.friend = userdata[friendid];
 
-        friend.on('child_changed', function(data) {
-            vm.friend[data.key] = data.val();
-        });
-        me.on('child_changed', function(data) {
+        backend.onUserUpdate(this.author, function(data) {
             vm.me[data.key] = data.val();
         });
-
-
-        this.messages = await backend.getMessages(20);
-
-        backend.onNewMessage(function(data) {
-            vm.messages.push(data.val());
-            new Audio('fwib2.wav').play();
+        backend.onUserUpdate(friendid, function(data) {
+            vm.friend[data.key] = data.val();
         });
-        await backend.trackPresence(this.author);
+        backend.trackPresence(this.author);
+
+        (await backend.getMessages(20)).forEach(msg => {
+            this.addToGroup(msg);
+        });
+        backend.onNewMessage(function(data) {
+            vm.addToGroup(data.val());
+            document.getElementById("fwib").play();
+        });
     },
     updated() {
         this.autoScroll();
