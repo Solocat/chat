@@ -17,17 +17,17 @@
             <p v-for="m in g.messages">{{m.text}}</p>
         </li>
     </ul>
-    <span class="bubble right" style="margin: 0.7em 0px;" :class="{hidden: !me.writing}">{{friend.name}} is typing...</span>
+    <span class="bubble right preview" :class="{hidden: !me.writing, active: me.writing != 'inactive'}">{{friend.name}} is typing&#x2026;</span>
 
     <v-text v-model="currentMSG" @send="send" @input="onInput" @change-name="onChangeName"></v-text>
 
     <footer>
         <span>
-            <span class="onlineicon" :class="{online: me.online}">&#x2B24</span>
+            <span class="onlineicon" :class="{online: me.online}">&#x2B24;</span>
             {{me.name}}
         </span>
         <span>
-            <span class="onlineicon" :class="{online: friend.online}">&#x2764</span>
+            <span class="onlineicon" :class="{online: friend.online}">&#x2764;</span>
             {{friend.name}}
         </span>
     </footer>

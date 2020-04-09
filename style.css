@@ -38,7 +38,7 @@ ul#messages::-webkit-scrollbar {
     background-color: #8bff92;
     padding: 0.4em 1em;
     border-radius: 1em 1em 1em 0em;
-    
+
     display: flex;
     flex-direction: column;
 }
@@ -50,10 +50,17 @@ ul#messages::-webkit-scrollbar {
     align-self: flex-end;
     border-radius: 1em 0em 1em 1em;
 }
-.bubble.right {
-    background-image: linear-gradient(to right, aqua, white);
-    align-self: flex-end;
-    border-radius: 1em 0em 1em 1em;
+.bubble.preview {
+    opacity: 0.5;
+    margin: 0.7em 0;
+}
+.bubble.preview.active {
+    animation: flash 1s ease-out 0s infinite alternate;
+    transform-origin: right;
+}
+@keyframes flash {
+    0% { opacity: 0.5; transform: scale(1);}
+    100% { opacity: 1; transform: scale(1.05);}
 }
 .bubble p {
     margin: 0;
