@@ -12,14 +12,14 @@
 <body>
 <content id="chat">
     <ul id="messages">
-        <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}">
+        <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}" :style="{backgroundColor: g.author == author ? me.color : friend.color}">
             <header class="time">{{formattedTime(g.time)}}</header>
             <p v-for="m in g.messages">{{m.text}}</p>
         </li>
     </ul>
     <span class="bubble right preview" :class="{hidden: !friend.writing, active: friend.writing != 'inactive'}">{{friend.name}} is typing&#x2026;</span>
 
-    <v-text v-model="currentMSG" @send="send" @input="onInput" @change-name="onChangeName"></v-text>
+    <v-text v-model="currentMSG" @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-text>
 
     <footer>
         <span>

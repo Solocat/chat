@@ -8,12 +8,21 @@ var app = new Vue({
         me: {
             name: "",
             writing: false,
-            online: false
+            online: false,
+            color: null
         },
         friend: {
             name: "",
             writing: false,
-            online: false
+            online: false,
+            color: null
+        }
+    },
+    computed: {
+        userStyle() {
+            return {
+                backgroundColor: (g.author == author ? this.me.color : this.friend.color)
+            }
         }
     },
     methods: {
@@ -37,8 +46,13 @@ var app = new Vue({
             this.currentMSG = "";
             this.onInput();
         },
-        onChangeName(name) {
-            backend.database.ref('users/' + this.author + '/name').set(name);
+        onUserFunction(cmd, arg) {
+            if (cmd == "/name ") {
+                backend.database.ref('users/' + this.author + '/name').set(arg);
+            }
+            else if (cmd == "/color ") {
+                backend.database.ref('users/' + this.author + '/color').set(arg);
+            }
             this.clearField();
         },
         send() {

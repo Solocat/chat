@@ -8,6 +8,11 @@ var vText = {
             }
         }
     },
+    data() {
+        return {
+            commands: ["/name ", "/color "]
+        }
+    },
     methods: {
         rows() {
             if (!this.$el) return 1; //new block on the block
@@ -25,12 +30,16 @@ var vText = {
         onEnter() {
             if (this.value == "") return;
 
-            const cmd = "/name ";
-            if (this.value.startsWith(cmd)) {
-                var name = this.value.replace(cmd, "");
-                this.$emit('change-name', name);
-            }
-            else this.$emit('send');
+            var send = true;
+            this.commands.forEach((cmd) => {
+                if (this.value.startsWith(cmd)) {
+                    var arg = this.value.replace(cmd, "");
+                    this.$emit('user-function', cmd, arg);
+                    send = false;
+                }
+            });
+
+            if (send) this.$emit('send');
 
             this.$el.setAttribute("rows", 1);
         }
