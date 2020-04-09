@@ -17,7 +17,7 @@
             <p v-for="m in g.messages">{{m.text}}</p>
         </li>
     </ul>
-    <span class="bubble right preview" :class="{hidden: !me.writing, active: friend.writing != 'inactive'}">{{friend.name}} is typing&#x2026;</span>
+    <span class="bubble right preview" :class="{hidden: !friend.writing, active: friend.writing != 'inactive'}">{{friend.name}} is typing&#x2026;</span>
 
     <v-text v-model="currentMSG" @send="send" @input="onInput" @change-name="onChangeName"></v-text>
 
