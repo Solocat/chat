@@ -30,6 +30,9 @@ ul#messages {
     border-radius: 1em 0em 1em 0em;
     background-color: #2b2b2b;
 }
+ul#messages::-webkit-scrollbar {
+    display: none;
+}
 
 .bubble {
     background-color: #8bff92;
@@ -44,6 +47,11 @@ ul#messages {
 }
 .bubble.right {
     background-color: aqua;
+    align-self: flex-end;
+    border-radius: 1em 0em 1em 1em;
+}
+.bubble.right {
+    background-image: linear-gradient(to right, aqua, white);
     align-self: flex-end;
     border-radius: 1em 0em 1em 1em;
 }

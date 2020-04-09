@@ -54,7 +54,7 @@ var app = new Vue({
             if (is) {
                 var vm = this;
                 function waitInput() {
-                    backend.database.ref('users/' + vm.author + '/writing').set(false);
+                    backend.database.ref('users/' + vm.author + '/writing').set("inactive");
                     clearTimeout(this.writeTimeout)
                 }
                 this.writeTimeout = setTimeout(waitInput, 1000);
