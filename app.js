@@ -79,19 +79,20 @@ var app = new Vue({
         },
         onScroll(event) {
             clearTimeout(this.arrowTimeout);
-            this.showArrowUp = false;
+            var block = document.getElementById("messages");
+            this.showArrowUp = (block.scrollTop != 0);
             this.showArrowDown = false;
 
             var vm = this;
-            var block = document.getElementById("messages");
+
 
             function ScrollDelay() {
-                vm.showArrowUp = (block.scrollTop != 0);
+
                 var bottom = block.scrollHeight - block.scrollTop - block.clientHeight;
                 vm.showArrowDown = (bottom != 0);
                 clearTimeout(this.arrowTimeout);
             }
-            this.arrowTimeout = setTimeout(ScrollDelay, 300);
+            this.arrowTimeout = setTimeout(ScrollDelay, 500);
         },
         formattedTime(time) {
             var date = new Date(time);
