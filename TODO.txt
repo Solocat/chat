@@ -3,6 +3,8 @@ animate icon?
 msg has been read
 nicer scrollbar
 more presence statuses
+better autoscroll
+nicer inline styles
 
 allow changing user's name
 show who's actively typing

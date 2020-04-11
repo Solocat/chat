@@ -69,7 +69,7 @@ var app = new Vue({
                 var vm = this;
                 function waitInput() {
                     backend.database.ref('users/' + vm.author + '/writing').set("inactive");
-                    clearTimeout(this.writeTimeout)
+                    clearTimeout(this.writeTimeout);
                 }
                 this.writeTimeout = setTimeout(waitInput, 1000);
             }
@@ -93,15 +93,19 @@ var app = new Vue({
         },
         autoScroll() {
             var objDiv = document.getElementById("messages");
-
+            
             var top = objDiv.scrollTop;
             function frame() {
                 top += 3;
-                objDiv.scrollTop = top
+                objDiv.scrollTop = top;
                 if (top  >= objDiv.scrollHeight - objDiv.clientHeight)
-                    clearInterval(id)
+                    clearInterval(id);
             }
             var id = setInterval(frame, 10);
+        },
+        scrollToBottom() {
+            var objDiv = document.getElementById("messages");
+            objDiv.scrollTop = objDiv.scrollHeight;
         }
     },
     components: {
@@ -137,9 +141,8 @@ var app = new Vue({
         backend.onNewMessage(function(data) {
             vm.addToGroup(data.val());
             document.getElementById("fwib").play();
+            vm.autoScroll();
         });
-    },
-    updated() {
-        this.autoScroll();
+        this.scrollToBottom();
     }
 })
