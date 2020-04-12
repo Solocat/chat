@@ -163,6 +163,9 @@ var app = new Vue({
             document.getElementById("fwib").play();
             vm.autoScroll();
         });
-        this.scrollToBottom();
+
+        Vue.nextTick(function () {
+            vm.scrollToBottom();
+        })
     }
 })

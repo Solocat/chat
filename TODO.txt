@@ -6,7 +6,6 @@ more presence statuses
 better autoscroll
 nicer inline styles
 scroll arrows
-fix autoscroll with grid
 
 allow changing user's name
 show who's actively typing
