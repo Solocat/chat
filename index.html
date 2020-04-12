@@ -17,7 +17,7 @@
 
     <ul id="messages" @scroll="onScroll">
         <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}" :style="{backgroundColor: g.author == author ? me.color : friend.color}">
-            <header class="time">{{formattedTime(g.time)}}</header>
+            <header class="time">{{ g.time | timeFormat }}</header>
             <p v-for="m in g.messages" v-scroll-jack>{{m.text}}</p>
         </li>
     </ul>

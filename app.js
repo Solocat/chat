@@ -28,13 +28,18 @@ var app = new Vue({
             }
         }
     },
+    filters: {
+        timeFormat(time) {
+            var date = new Date(time);
+            var today = new Date();
+
+            if (date.getDate == today.getDate) {
+                return date.toLocaleTimeString();
+            }
+            else return date.toLocaleString();
+        }
+    },
     methods: {
-        goUp() {
-            this.scrollToTop();
-        },
-        goDown() {
-            this.scrollToBottom();
-        },
         addToGroup(msg) {
             if (this.messageGroups.length == 0) {
                 this.messageGroups.push({ author: msg.author, time: msg.time, messages : [] });
@@ -97,15 +102,6 @@ var app = new Vue({
                 clearTimeout(this.arrowTimeout);
             }
             this.arrowTimeout = setTimeout(ScrollDelay, 500);
-        },
-        formattedTime(time) {
-            var date = new Date(time);
-            var today = new Date();
-
-            if (date.getDate == today.getDate) {
-                return date.toLocaleTimeString();
-            }
-            else return date.toLocaleString();
         },
         async upload(msg) {
             try {
