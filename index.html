@@ -12,7 +12,7 @@
 <body>
 <content id="chat">
     <transition name="fade">
-        <div class="arrow" v-show="showArrowUp">^</div>
+        <button class="arrow" v-show="showArrowUp" @click="goUp">^</button>
     </transition>
 
     <ul id="messages" @scroll="onScroll">
@@ -22,7 +22,7 @@
         </li>
     </ul>
     <transition name="fade">
-        <div class="arrow down" v-show="showArrowDown">v</div>
+        <button class="arrow down" v-show="showArrowDown" @click="goDown">v</button>
     </transition>
 
     <div style="display:flex; flex-direction: column;">

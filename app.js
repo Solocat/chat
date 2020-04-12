@@ -29,6 +29,12 @@ var app = new Vue({
         }
     },
     methods: {
+        goUp() {
+            this.scrollToTop();
+        },
+        goDown() {
+            this.scrollToBottom();
+        },
         addToGroup(msg) {
             if (this.messageGroups.length == 0) {
                 this.messageGroups.push({ author: msg.author, time: msg.time, messages : [] });
@@ -111,7 +117,7 @@ var app = new Vue({
                 console.error(error)
             }
         },
-        autoScroll() {
+        scrollToBottom() {
             var objDiv = document.getElementById("messages");
 
             var top = objDiv.scrollTop;
@@ -123,7 +129,19 @@ var app = new Vue({
             }
             var id = setInterval(frame, 10);
         },
-        scrollToBottom() {
+        scrollToTop() {
+            var objDiv = document.getElementById("messages");
+
+            var top = objDiv.scrollTop;
+            function frame() {
+                top -= 3;
+                objDiv.scrollTop = top;
+                if (top  <= 0)
+                    clearInterval(id);
+            }
+            var id = setInterval(frame, 10);
+        },
+        gotoBottom() {
             var objDiv = document.getElementById("messages");
             objDiv.scrollTop = objDiv.scrollHeight;
         }
@@ -161,11 +179,11 @@ var app = new Vue({
         backend.onNewMessage(function(data) {
             vm.addToGroup(data.val());
             document.getElementById("fwib").play();
-            vm.autoScroll();
+            vm.scrollToBottom();
         });
 
         Vue.nextTick(function () {
-            vm.scrollToBottom();
+            vm.gotoBottom();
         })
     }
 })

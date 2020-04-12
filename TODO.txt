@@ -12,8 +12,8 @@ show who's actively typing
 animate bubbles
 show who's online
 optimize grouping
+fancy is typing effect
 
 show timestamps on hover?
-fancy is typing effect
 hyperlinks
 images
