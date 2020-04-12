@@ -12,17 +12,17 @@
 <body>
 <content id="chat">
     <transition name="fade">
-        <button class="arrow" v-show="showArrowUp" @click="goUp">^</button>
+        <button class="arrow" v-show="showArrowUp" @click="scrollMessages('start', 'smooth')">^</button>
     </transition>
 
     <ul id="messages" @scroll="onScroll">
         <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}" :style="{backgroundColor: g.author == author ? me.color : friend.color}">
             <header class="time">{{formattedTime(g.time)}}</header>
-            <p v-for="m in g.messages">{{m.text}}</p>
+            <p v-for="m in g.messages" v-scroll-jack>{{m.text}}</p>
         </li>
     </ul>
     <transition name="fade">
-        <button class="arrow down" v-show="showArrowDown" @click="goDown">v</button>
+        <button class="arrow down" v-show="showArrowDown" @click="scrollMessages('end', 'smooth')">v</button>
     </transition>
 
     <div style="display:flex; flex-direction: column;">

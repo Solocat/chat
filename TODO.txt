@@ -1,11 +1,8 @@
 grab user's attention
 animate icon?
 msg has been read
-nicer scrollbar
 more presence statuses
-better autoscroll
 nicer inline styles
-scroll arrows
 
 allow changing user's name
 show who's actively typing
@@ -13,6 +10,9 @@ animate bubbles
 show who's online
 optimize grouping
 fancy is typing effect
+better autoscroll
+scroll arrows
+nicer scrollbar
 
 show timestamps on hover?
 hyperlinks

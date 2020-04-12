@@ -91,9 +91,7 @@ var app = new Vue({
 
             var vm = this;
 
-
             function ScrollDelay() {
-
                 var bottom = block.scrollHeight - block.scrollTop - block.clientHeight;
                 vm.showArrowDown = (bottom != 0);
                 clearTimeout(this.arrowTimeout);
@@ -117,37 +115,21 @@ var app = new Vue({
                 console.error(error)
             }
         },
-        scrollToBottom() {
-            var objDiv = document.getElementById("messages");
-
-            var top = objDiv.scrollTop;
-            function frame() {
-                top += 3;
-                objDiv.scrollTop = top;
-                if (top  >= objDiv.scrollHeight - objDiv.clientHeight)
-                    clearInterval(id);
-            }
-            var id = setInterval(frame, 10);
-        },
-        scrollToTop() {
-            var objDiv = document.getElementById("messages");
-
-            var top = objDiv.scrollTop;
-            function frame() {
-                top -= 3;
-                objDiv.scrollTop = top;
-                if (top  <= 0)
-                    clearInterval(id);
-            }
-            var id = setInterval(frame, 10);
-        },
-        gotoBottom() {
-            var objDiv = document.getElementById("messages");
-            objDiv.scrollTop = objDiv.scrollHeight;
+        scrollMessages(dir, smooth) {
+            var container = document.getElementById("messages");
+            var child = (dir == "start") ? container.firstChild : container.lastChild;
+            child.scrollIntoView({ behavior: smooth, block: dir });
         }
     },
     components: {
         'v-text': vText
+    },
+    directives: {
+        'scroll-jack': {
+            inserted: function (el) {
+                el.scrollIntoView({ behavior: 'smooth'});
+            }
+        }
     },
     async mounted() {
         const vm = this;
@@ -179,11 +161,10 @@ var app = new Vue({
         backend.onNewMessage(function(data) {
             vm.addToGroup(data.val());
             document.getElementById("fwib").play();
-            vm.scrollToBottom();
         });
 
         Vue.nextTick(function () {
-            vm.gotoBottom();
+            vm.scrollMessages("end", "auto");
         })
     }
 })
