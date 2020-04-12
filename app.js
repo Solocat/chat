@@ -75,6 +75,7 @@ var app = new Vue({
             }
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         onScroll(event) {
             clearTimeout(this.arrowTimeout);
             var block = document.getElementById("messages");
@@ -92,6 +93,8 @@ var app = new Vue({
             }
             this.arrowTimeout = setTimeout(ScrollDelay, 500);
         },
+=======
+>>>>>>> parent of 01ae39b... arrows+gridify candidate
 =======
 >>>>>>> parent of 01ae39b... arrows+gridify candidate
         formattedTime(time) {
