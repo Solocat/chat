@@ -5,6 +5,7 @@ var app = new Vue({
         author: "",
         messageGroups: [],
         writeTimeout: {},
+        arrowTimeout: {},
         me: {
             name: "",
             writing: false,
@@ -16,7 +17,9 @@ var app = new Vue({
             writing: false,
             online: false,
             color: null
-        }
+        },
+        showArrowUp: false,
+        showArrowDown: false
     },
     computed: {
         userStyle() {
@@ -74,6 +77,23 @@ var app = new Vue({
                 this.writeTimeout = setTimeout(waitInput, 1000);
             }
         },
+        onScroll(event) {
+            clearTimeout(this.arrowTimeout);
+            var block = document.getElementById("messages");
+            this.showArrowUp = (block.scrollTop != 0);
+            this.showArrowDown = false;
+
+            var vm = this;
+
+
+            function ScrollDelay() {
+
+                var bottom = block.scrollHeight - block.scrollTop - block.clientHeight;
+                vm.showArrowDown = (bottom != 0);
+                clearTimeout(this.arrowTimeout);
+            }
+            this.arrowTimeout = setTimeout(ScrollDelay, 500);
+        },
         formattedTime(time) {
             var date = new Date(time);
             var today = new Date();
@@ -93,7 +113,7 @@ var app = new Vue({
         },
         autoScroll() {
             var objDiv = document.getElementById("messages");
-            
+
             var top = objDiv.scrollTop;
             function frame() {
                 top += 3;
@@ -135,7 +155,7 @@ var app = new Vue({
         });
         backend.trackPresence(this.author);
 
-        (await backend.getMessages(20)).forEach(msg => {
+        (await backend.getMessages(40)).forEach(msg => {
             this.addToGroup(msg);
         });
         backend.onNewMessage(function(data) {
