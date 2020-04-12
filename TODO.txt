@@ -5,7 +5,6 @@ nicer scrollbar
 more presence statuses
 better autoscroll
 nicer inline styles
-scroll arrows
 
 allow changing user's name
 show who's actively typing

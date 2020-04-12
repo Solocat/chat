@@ -45,10 +45,3 @@ var vText = {
         }
     }
 }
-
-var vContent = {
-    props: ['text'],
-    template: ``,
-    methods: {
-    }
-}

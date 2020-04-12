@@ -11,37 +11,26 @@
 
 <body>
 <content id="chat">
-    <transition name="fade">
-        <div class="arrow" v-show="showArrowUp">^</div>
-    </transition>
-
-    <ul id="messages" @scroll="onScroll">
+    <ul id="messages">
         <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}" :style="{backgroundColor: g.author == author ? me.color : friend.color}">
             <header class="time">{{formattedTime(g.time)}}</header>
             <p v-for="m in g.messages">{{m.text}}</p>
         </li>
     </ul>
-    <transition name="fade">
-        <div class="arrow down" v-show="showArrowDown">v</div>
-    </transition>
+    <span class="bubble right preview" :class="{hidden: !friend.writing, active: friend.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
 
-    <div style="display:flex; flex-direction: column;">
-        <span class="bubble right preview" :class="{hidden: !friend.writing, active: friend.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
+    <v-text v-model="currentMSG" @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-text>
 
-        <v-text v-model="currentMSG" @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-text>
-
-        <footer>
-            <span>
-                <span class="onlineicon" :class="{online: me.online}">&#x2B24;</span>
-                {{me.name}}
-            </span>
-            <span>
-                <span class="onlineicon" :class="{online: friend.online}">&#x2764;</span>
-                {{friend.name}}
-            </span>
-        </footer>
-    </div>
-
+    <footer>
+        <span>
+            <span class="onlineicon" :class="{online: me.online}">&#x2B24;</span>
+            {{me.name}}
+        </span>
+        <span>
+            <span class="onlineicon" :class="{online: friend.online}">&#x2764;</span>
+            {{friend.name}}
+        </span>
+    </footer>
 </content>
 
 
