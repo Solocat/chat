@@ -7,13 +7,10 @@ more presence statuses
 better autoscroll
 nicer inline styles
 <<<<<<< HEAD
-<<<<<<< HEAD
 scroll arrows
 fix autoscroll with grid
 =======
 >>>>>>> parent of b9615e1... optimize autoscroll
-=======
->>>>>>> parent of 01ae39b... arrows+gridify candidate
 =======
 >>>>>>> parent of 01ae39b... arrows+gridify candidate
 
