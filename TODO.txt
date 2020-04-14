@@ -3,6 +3,7 @@ animate icon?
 msg has been read
 more presence statuses
 nicer inline styles
+mobile fixes
 
 allow changing user's name
 show who's actively typing
