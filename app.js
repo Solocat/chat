@@ -1,11 +1,10 @@
 var app = new Vue({
     el: "#chat",
     data: {
-        currentMSG: "",
         author: "",
         messageGroups: [],
-        writeTimeout: {},
-        arrowTimeout: {},
+        writeTimeout: null,
+        arrowTimeout: null,
         me: {
             name: "",
             writing: false,
@@ -57,8 +56,7 @@ var app = new Vue({
             group.messages.push(msg);
         },
         clearField() {
-            this.currentMSG = "";
-            this.onInput();
+            this.onInput("");
         },
         onUserFunction(cmd, arg) {
             if (cmd == "/name ") {
@@ -69,14 +67,14 @@ var app = new Vue({
             }
             this.clearField();
         },
-        send() {
-            var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
+        send(value) {
+            var msg = {text: value, time: Date.now(), author: this.author};
             this.upload(msg);
             this.clearField();
         },
-        onInput() {
+        onInput(value) {
             clearTimeout(this.writeTimeout);
-            var is = (this.currentMSG.length > 0);
+            var is = (value.length > 0);
             backend.database.ref('users/' + this.author + '/writing').set(is);
 
             if (is) {
@@ -118,7 +116,7 @@ var app = new Vue({
         }
     },
     components: {
-        'v-text': vText
+        'v-text-field': vTextField
     },
     directives: {
         'scroll-jack': {

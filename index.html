@@ -28,7 +28,7 @@
     <div style="display:flex; flex-direction: column;">
         <span class="bubble right preview" :class="{hidden: !friend.writing, active: friend.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
 
-        <v-text v-model="currentMSG" @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-text>
+        <v-text-field @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-text>
 
         <footer>
             <span>
@@ -51,7 +51,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script src="backend.js"></script>
-<script src="vText.js"></script>
+<script src="components.js"></script>
 <script src="app.js"></script>
 
 <audio id="fwib" src="fwib2.wav"></audio>
