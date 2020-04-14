@@ -1,5 +1,5 @@
 var vTextField = {
-    template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter"></textarea>`,
+    template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" v-focus></textarea>`,
     directives: {
         focus: {
             inserted: function (el) {

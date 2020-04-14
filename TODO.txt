@@ -3,7 +3,9 @@ animate icon?
 msg has been read
 more presence statuses
 nicer inline styles
-mobile fixes
+mobile fixes {
+    does v-focus open keyboard?
+}
 
 allow changing user's name
 show who's actively typing
