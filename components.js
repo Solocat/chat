@@ -43,6 +43,7 @@ var vTextField = {
             if (send) this.$emit('send', text);
 
             event.target.value = "";
+            this.$emit('input', '');
             this.$el.setAttribute("rows", 1);
         }
     }

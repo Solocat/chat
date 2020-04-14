@@ -55,9 +55,6 @@ var app = new Vue({
             }
             group.messages.push(msg);
         },
-        clearField() {
-            this.onInput("");
-        },
         onUserFunction(cmd, arg) {
             if (cmd == "/name ") {
                 backend.database.ref('users/' + this.author + '/name').set(arg);
@@ -65,12 +62,10 @@ var app = new Vue({
             else if (cmd == "/color ") {
                 backend.database.ref('users/' + this.author + '/color').set(arg);
             }
-            this.clearField();
         },
         send(value) {
             var msg = {text: value, time: Date.now(), author: this.author};
             this.upload(msg);
-            this.clearField();
         },
         onInput(value) {
             clearTimeout(this.writeTimeout);
