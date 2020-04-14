@@ -1,4 +1,4 @@
-var vTextField = {
+var vTextfield = {
     template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" v-focus></textarea>`,
     directives: {
         focus: {

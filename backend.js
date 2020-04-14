@@ -31,7 +31,7 @@ var backend = {
         return data;
     },
     trackPresence(uid) {
-        var status = backend.database.ref('users/' + uid + '/online');
+        var status = this.database.ref('users/' + uid + '/presence/online');
 
         this.database.ref('.info/connected').on('value', async function(snapshot) {
             if (snapshot.val() == true) {

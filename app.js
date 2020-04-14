@@ -7,14 +7,12 @@ var app = new Vue({
         arrowTimeout: null,
         me: {
             name: "",
-            writing: false,
-            online: false,
+            presence: {},
             color: null
         },
         friend: {
             name: "",
-            writing: false,
-            online: false,
+            presence: {},
             color: null
         },
         showArrowUp: false,
@@ -39,6 +37,21 @@ var app = new Vue({
         }
     },
     methods: {
+        presenceColor(user) {
+            var p = user.presence;
+            var color;
+
+            if (!p.online) {
+                color = "#DDD";
+            }
+            else if (!p.visible) {
+                color = "#FF7";
+            }
+            else color = "#8bff92";
+            return {
+                color: color
+            }
+        },
         addToGroup(msg) {
             if (this.messageGroups.length == 0) {
                 this.messageGroups.push({ author: msg.author, time: msg.time, messages : [] });
@@ -70,12 +83,12 @@ var app = new Vue({
         onInput(value) {
             clearTimeout(this.writeTimeout);
             var is = (value.length > 0);
-            backend.database.ref('users/' + this.author + '/writing').set(is);
+            backend.database.ref('users/' + this.author + '/presence/writing').set(is);
 
             if (is) {
                 var vm = this;
                 function waitInput() {
-                    backend.database.ref('users/' + vm.author + '/writing').set("inactive");
+                    backend.database.ref('users/' + vm.author + '/presence/writing').set("inactive");
                     clearTimeout(this.writeTimeout);
                 }
                 this.writeTimeout = setTimeout(waitInput, 1000);
@@ -111,7 +124,7 @@ var app = new Vue({
         }
     },
     components: {
-        'v-text-field': vTextField
+        'v-textfield': vTextfield
     },
     directives: {
         'scroll-jack': {
@@ -155,5 +168,12 @@ var app = new Vue({
         Vue.nextTick(function () {
             vm.scrollMessages("end", "auto");
         })
+
+        var visible = backend.database.ref('users/' + this.author + '/presence/visible');
+        visible.set(!document.hidden);
+
+        document.addEventListener("visibilitychange", function() {
+            visible.set(!document.hidden);
+        }, false);
     }
 })
