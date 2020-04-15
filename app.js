@@ -159,8 +159,8 @@ var app = new Vue({
             document.getElementById("fwib").play();
         });
 
-        Vue.nextTick(function () {
-            vm.scrollMessages("end", "auto");
+        this.$nextTick(function () {
+            this.scrollMessages("end", "auto");
         })
     }
 })
