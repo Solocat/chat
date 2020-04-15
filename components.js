@@ -1,6 +1,5 @@
-var vText = {
-    props: ['value'],
-    template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" :value="value"></textarea>`,
+var vTextfield = {
+    template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" v-focus></textarea>`,
     directives: {
         focus: {
             inserted: function (el) {
@@ -10,6 +9,7 @@ var vText = {
     },
     data() {
         return {
+            text: "",
             commands: ["/name ", "/color "]
         }
     },
@@ -27,20 +27,23 @@ var vText = {
             this.$emit('input', event.target.value);
             this.rows();
         },
-        onEnter() {
-            if (this.value == "") return;
+        onEnter(event) {
+            var text = event.target.value;
+            if (text == "") return;
 
             var send = true;
             this.commands.forEach((cmd) => {
-                if (this.value.startsWith(cmd)) {
-                    var arg = this.value.replace(cmd, "");
+                if (text.startsWith(cmd)) {
+                    var arg = text.replace(cmd, "");
                     this.$emit('user-function', cmd, arg);
                     send = false;
                 }
             });
 
-            if (send) this.$emit('send');
+            if (send) this.$emit('send', text);
 
+            event.target.value = "";
+            this.$emit('input', '');
             this.$el.setAttribute("rows", 1);
         }
     }

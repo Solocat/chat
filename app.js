@@ -1,21 +1,18 @@
 var app = new Vue({
     el: "#chat",
     data: {
-        currentMSG: "",
         author: "",
         messageGroups: [],
-        writeTimeout: {},
-        arrowTimeout: {},
+        writeTimeout: null,
+        arrowTimeout: null,
         me: {
             name: "",
-            writing: false,
-            online: false,
+            presence: {},
             color: null
         },
         friend: {
             name: "",
-            writing: false,
-            online: false,
+            presence: {},
             color: null
         },
         showArrowUp: false,
@@ -40,6 +37,21 @@ var app = new Vue({
         }
     },
     methods: {
+        presenceColor(user) {
+            var p = user.presence;
+            var color;
+
+            if (!p.online) {
+                color = "#DDD";
+            }
+            else if (!p.visible) {
+                color = "#FF7";
+            }
+            else color = "#8bff92";
+            return {
+                color: color
+            }
+        },
         addToGroup(msg) {
             if (this.messageGroups.length == 0) {
                 this.messageGroups.push({ author: msg.author, time: msg.time, messages : [] });
@@ -56,10 +68,6 @@ var app = new Vue({
             }
             group.messages.push(msg);
         },
-        clearField() {
-            this.currentMSG = "";
-            this.onInput();
-        },
         onUserFunction(cmd, arg) {
             if (cmd == "/name ") {
                 backend.database.ref('users/' + this.author + '/name').set(arg);
@@ -67,22 +75,20 @@ var app = new Vue({
             else if (cmd == "/color ") {
                 backend.database.ref('users/' + this.author + '/color').set(arg);
             }
-            this.clearField();
         },
-        send() {
-            var msg = {text: this.currentMSG, time: Date.now(), author: this.author};
+        send(value) {
+            var msg = {text: value, time: Date.now(), author: this.author};
             this.upload(msg);
-            this.clearField();
         },
-        onInput() {
+        onInput(value) {
             clearTimeout(this.writeTimeout);
-            var is = (this.currentMSG.length > 0);
-            backend.database.ref('users/' + this.author + '/writing').set(is);
+            var is = (value.length > 0);
+            backend.database.ref('users/' + this.author + '/presence/writing').set(is);
 
             if (is) {
                 var vm = this;
                 function waitInput() {
-                    backend.database.ref('users/' + vm.author + '/writing').set("inactive");
+                    backend.database.ref('users/' + vm.author + '/presence/writing').set("inactive");
                     clearTimeout(this.writeTimeout);
                 }
                 this.writeTimeout = setTimeout(waitInput, 1000);
@@ -118,7 +124,7 @@ var app = new Vue({
         }
     },
     components: {
-        'v-text': vText
+        'v-textfield': vTextfield
     },
     directives: {
         'scroll-jack': {
@@ -162,5 +168,12 @@ var app = new Vue({
         this.$nextTick(function () {
             this.scrollMessages("end", "auto");
         })
+
+        var visible = backend.database.ref('users/' + this.author + '/presence/visible');
+        visible.set(!document.hidden);
+
+        document.addEventListener("visibilitychange", function() {
+            visible.set(!document.hidden);
+        }, false);
     }
 })

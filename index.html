@@ -26,17 +26,17 @@
     </transition>
 
     <div style="display:flex; flex-direction: column;">
-        <span class="bubble right preview" :class="{hidden: !friend.writing, active: friend.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
+        <span class="bubble right preview" :class="{hidden: !friend.presence.writing, active: friend.presence.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
 
-        <v-text v-model="currentMSG" @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-text>
+        <v-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-textfield>
 
         <footer>
             <span>
-                <span class="onlineicon" :class="{online: me.online}">&#x2B24;</span>
+                <span class="onlineicon" :style="presenceColor(me)">&#x2B24;</span>
                 {{me.name}}
             </span>
             <span>
-                <span class="onlineicon" :class="{online: friend.online}">&#x2764;</span>
+                <span class="onlineicon" :style="presenceColor(friend)">&#x2764;</span>
                 {{friend.name}}
             </span>
         </footer>
@@ -51,7 +51,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script src="backend.js"></script>
-<script src="vText.js"></script>
+<script src="components.js"></script>
 <script src="app.js"></script>
 
 <audio id="fwib" src="fwib2.wav"></audio>

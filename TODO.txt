@@ -1,8 +1,15 @@
 grab user's attention
 animate icon?
 msg has been read
-more presence statuses
+more presence statuses {
+    focused: document.hasFocus()
+    blurred
+    page hidden
+    afk
+    offline
+}
 nicer inline styles
+mobile fixes: down-arrow
 
 allow changing user's name
 show who's actively typing
