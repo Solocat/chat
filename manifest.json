@@ -1,0 +1,12 @@
+{
+  "name": "Solopoke",
+  "short_name": "Solopoke",
+  "description": "Chat with Solo",
+  "display": "fullscreen",
+  "icons": [{
+    "src": "Solopoke192.png",
+    "sizes": "192x192"
+  }],
+  "theme_color": "#8bff92",
+  "background_color": "#222",
+}
