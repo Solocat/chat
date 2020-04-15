@@ -4,7 +4,7 @@
   "description": "Chat with Solo",
   "display": "minimal-ui",
   "icons": [{
-    "src": "Solopoke192.png",
+    "src": "Solopoke192square.png",
     "sizes": "192x192"
   }],
   "theme_color": "#8bff92",
