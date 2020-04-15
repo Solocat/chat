@@ -2,7 +2,7 @@
   "name": "Solopoke",
   "short_name": "Solopoke",
   "description": "Chat with Solo",
-  "display": "fullscreen",
+  "display": "minimal-ui",
   "icons": [{
     "src": "Solopoke192.png",
     "sizes": "192x192"
