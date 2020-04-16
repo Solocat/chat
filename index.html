@@ -17,10 +17,7 @@
     </transition>
 
     <ul id="messages" @scroll="onScroll">
-        <li class="bubble" v-for="g in messageGroups" :class="{right: g.author != author}" :style="{backgroundColor: g.author == author ? me.color : friend.color}">
-            <header class="time">{{ g.time | timeFormat }}</header>
-            <p v-for="m in g.messages" v-scroll-jack>{{m.text}}</p>
-        </li>
+        <s-bubble v-for="g in messageGroups" :group="g" :color="g.author == author ? me.color : friend.color" :mine="g.author == author"></s-bubble>
     </ul>
     <transition name="fade">
         <button class="arrow down" v-show="showArrowDown" @click="scrollMessages('end', 'smooth')">v</button>

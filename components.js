@@ -52,7 +52,36 @@ var sTextfield = {
     }
 }
 
-var vContent = {
+var sBubble = {
+    props: ["group", "mine", "color"],
+    template:  `<li class="bubble" :class="{right: !mine}" :style="{backgroundColor: color}">
+                <header class="time">{{ group.time | timeFormat }}</header>
+                <p v-for="m in group.messages" v-scroll-jack>{{m.text}}</p>
+            </li>`,
+    computed: {
+        
+    },
+    filters: {
+        timeFormat(time) {
+            var date = new Date(time);
+            var today = new Date();
+
+            if (date.getDate == today.getDate) {
+                return date.toLocaleTimeString();
+            }
+            else return date.toLocaleString();
+        }
+    },
+    directives: {
+        'scroll-jack': {
+            inserted: function (el) {
+                el.scrollIntoView({ behavior: 'smooth'});
+            }
+        }
+    },
+}
+
+var sContent = {
     props: ['text'],
     template: ``,
     methods: {

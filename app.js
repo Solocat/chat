@@ -25,17 +25,6 @@ var app = new Vue({
             }
         }
     },
-    filters: {
-        timeFormat(time) {
-            var date = new Date(time);
-            var today = new Date();
-
-            if (date.getDate == today.getDate) {
-                return date.toLocaleTimeString();
-            }
-            else return date.toLocaleString();
-        }
-    },
     methods: {
         presenceColor(user) {
             var p = user.presence;
@@ -119,14 +108,8 @@ var app = new Vue({
         }
     },
     components: {
-        's-textfield': sTextfield
-    },
-    directives: {
-        'scroll-jack': {
-            inserted: function (el) {
-                el.scrollIntoView({ behavior: 'smooth'});
-            }
-        }
+        's-textfield': sTextfield,
+        's-bubble': sBubble
     },
     async mounted() {
         const vm = this;
