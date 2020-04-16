@@ -16,7 +16,7 @@ var app = new Vue({
             color: null
         },
         showArrowUp: false,
-        showArrowDown: false
+        showArrowDown: false,
     },
     computed: {
         userStyle() {
@@ -69,12 +69,7 @@ var app = new Vue({
             group.messages.push(msg);
         },
         onUserFunction(cmd, arg) {
-            if (cmd == "/name ") {
-                backend.database.ref('users/' + this.author + '/name').set(arg);
-            }
-            else if (cmd == "/color ") {
-                backend.database.ref('users/' + this.author + '/color').set(arg);
-            }
+            backend.setMyProp(cmd, arg);
         },
         send(value) {
             var msg = {text: value, time: Date.now(), author: this.author};
@@ -83,12 +78,12 @@ var app = new Vue({
         onInput(value) {
             clearTimeout(this.writeTimeout);
             var is = (value.length > 0);
-            backend.database.ref('users/' + this.author + '/presence/writing').set(is);
+            backend.setMyProp("presence/writing", is);
 
             if (is) {
                 var vm = this;
                 function waitInput() {
-                    backend.database.ref('users/' + vm.author + '/presence/writing').set("inactive");
+                    backend.setMyProp("presence/writing", "inactive");
                     clearTimeout(this.writeTimeout);
                 }
                 this.writeTimeout = setTimeout(waitInput, 1000);
@@ -111,7 +106,7 @@ var app = new Vue({
         },
         async upload(msg) {
             try {
-                await backend.database.ref('messages').push().set(msg);
+                await backend.sendMessage(msg);
             }
             catch(error) {
                 console.error(error)
@@ -124,7 +119,7 @@ var app = new Vue({
         }
     },
     components: {
-        'v-textfield': vTextfield
+        's-textfield': sTextfield
     },
     directives: {
         'scroll-jack': {
@@ -139,11 +134,6 @@ var app = new Vue({
         this.author = await backend.authenticate();
 
         var userdata = await backend.getUsers();
-        var keys = Object.keys(userdata);
-
-        if (this.author == null) {
-            this.author = keys[1];
-        }
         this.me = userdata[this.author];
 
         var friendid = this.me.friend;
@@ -155,6 +145,7 @@ var app = new Vue({
         backend.onUserUpdate(friendid, function(data) {
             vm.friend[data.key] = data.val();
         });
+
         backend.trackPresence(this.author);
 
         (await backend.getMessages(40)).forEach(msg => {
@@ -169,11 +160,10 @@ var app = new Vue({
             this.scrollMessages("end", "auto");
         })
 
-        var visible = backend.database.ref('users/' + this.author + '/presence/visible');
-        visible.set(!document.hidden);
+        backend.setMyProp("presence/visible", !document.hidden);
 
         document.addEventListener("visibilitychange", function() {
-            visible.set(!document.hidden);
+            backend.setMyProp("presence/visible", !document.hidden);
         }, false);
     }
 })

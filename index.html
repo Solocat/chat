@@ -29,7 +29,7 @@
     <div style="display:flex; flex-direction: column;">
         <span class="bubble right preview" :class="{hidden: !friend.presence.writing, active: friend.presence.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
 
-        <v-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></v-textfield>
+        <s-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></s-textfield>
 
         <footer>
             <span>

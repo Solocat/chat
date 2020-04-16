@@ -1,4 +1,4 @@
-var vTextfield = {
+var sTextfield = {
     template: `<textarea placeholder="Write here" @input="onInput" rows=1 @keydown.enter.prevent="onEnter" v-focus></textarea>`,
     directives: {
         focus: {
@@ -35,6 +35,9 @@ var vTextfield = {
             this.commands.forEach((cmd) => {
                 if (text.startsWith(cmd)) {
                     var arg = text.replace(cmd, "");
+                    cmd = cmd.trim();
+                    cmd = cmd.substr(1);
+
                     this.$emit('user-function', cmd, arg);
                     send = false;
                 }
