@@ -52,14 +52,61 @@ var sTextfield = {
     }
 }
 
+var sFormatted = {
+    props: ['text'],
+    //template: '<p v-html=getContent()></p>',
+    render: function (h) {
+        if (this.text.indexOf("http") < 0) {
+            return h('p', this.text);
+        }
+        var children = []
+
+        var res = this.text;
+        var pieces = res.split(" ");
+        for (const p of pieces) {
+            if (p.startsWith("http")) {
+                children.push(h("a", {
+                    domProps: {
+                        innerHTML: p.split("://")[1]
+                    },
+                    attrs: {
+                        href: p,
+                        target: "_blank"
+                    },
+                }));
+            }
+            else if (p != " ") {
+                children.push(p);
+            }
+            children.push(" "); //readd spaces
+        }
+        children.pop(); //trim last space
+
+        return h('p', children);
+    },
+    methods: {
+         getContent() {
+            var res = this.text;
+            var pieces = res.split(" ");
+            for (const p of pieces) {
+                if (p.startsWith("http")) {
+                    var link = "<a href=" + p + " target='_blank'>" + p.split("://")[1] + "</a>";
+                    res = res.replace(p, link);
+                }
+            }
+            return res;
+        }
+    }
+}
+
 var sBubble = {
     props: ["group", "mine", "color"],
     template:  `<li class="bubble" :class="{right: !mine}" :style="{backgroundColor: color}">
                 <header class="time">{{ group.time | timeFormat }}</header>
-                <p v-for="m in group.messages" v-scroll-jack>{{m.text}}</p>
+                <s-formatted v-for="(m, i) in group.messages" :key="i" v-scroll-jack :text="m.text"></s-formatted>
             </li>`,
-    computed: {
-        
+    components: {
+        's-formatted' : sFormatted
     },
     filters: {
         timeFormat(time) {
@@ -79,11 +126,4 @@ var sBubble = {
             }
         }
     },
-}
-
-var sContent = {
-    props: ['text'],
-    template: ``,
-    methods: {
-    }
 }
