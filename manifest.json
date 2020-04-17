@@ -1,6 +1,6 @@
 {
-  "name": "Solopoke",
-  "short_name": "Solopoke",
+  "name": "solo-poke",
+  "short_name": "solo-poke",
   "description": "Chat with Solo",
   "display": "minimal-ui",
   "icons": [{
