@@ -20,9 +20,7 @@ var backend = {
         }
         catch (error) {
             console.log("Running in test mode");
-            this.testmode = true;
-            this.users = "testusers";
-            this.messages = "testmessages";
+            this.root = "test/"
             this.me = 0;
         }
         finally {
@@ -30,15 +28,15 @@ var backend = {
         }
     },
     async getMessages(count) {
-        const data = (await this.database.ref(this.messages).limitToLast(count).once('value')).val();
+        const data = (await this.messageRef().limitToLast(count).once('value')).val();
         return Object.values(data);
     },
     async getUsers() {
-        const data = (await this.database.ref(this.users).once('value')).val();
+        const data = (await this.userRef().once('value')).val();
         return data;
     },
     trackPresence(uid) {
-        var status = this.database.ref(this.users + '/' + uid + '/presence/online');
+        var status = this.userRef(uid + '/presence/online');
 
         this.database.ref('.info/connected').on('value', async function(snapshot) {
             if (snapshot.val() == true) {
@@ -48,24 +46,29 @@ var backend = {
         });
     },
     onUserUpdate(uid, fn) {
-        var user = this.database.ref(this.users + '/' + uid);
+        var user = this.userRef(uid);
         user.on('child_changed', fn);
     },
     onNewMessage(fn) {
-        var messages = this.database.ref(this.messages);
+        var messages = this.messageRef();
         const startKey = messages.push().key;
 
         messages.orderByKey().startAt(startKey).on('child_added', fn);
     },
     sendMessage(msg) {
-        this.database.ref(this.messages).push().set(msg);
+        this.messageRef().push().set(msg);
     },
     setMyProp(prop, val) {
-        this.database.ref(this.users + '/' + this.me + '/' + prop).set(val);
+        this.userRef(this.me + '/' + prop).set(val);
+    },
+    userRef(path) {
+        return this.database.ref(this.root + "users" + (path ? '/'+path : ""));
+    },
+    messageRef(path) {
+        return this.database.ref(this.root + "messages" + (path ? '/'+path : ""));
     },
     database: firebase.database(),
-    users: "users",
-    messages: "messages",
+    root: "",
     me: null
 }
 
