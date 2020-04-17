@@ -54,8 +54,9 @@ var sTextfield = {
 
 var sFormatted = {
     props: ['text'],
-    //template: '<p v-html=getContent()></p>',
     render: function (h) {
+        var el = this;
+
         if (this.text.indexOf("http") < 0) {
             return h('p', this.text);
         }
@@ -65,21 +66,23 @@ var sFormatted = {
         var pieces = res.split(" ");
         for (const p of pieces) {
             if (p.startsWith("http")) {
-                var lw = p.toLowerCase();
-                if (lw.endsWith(".png") || lw.endsWith(".jpg") || lw.endsWith(".jpeg")) {
+
+                if (this.isImage(p)) {
                     children.push(h("img", {
                         attrs: {
                             src: p,
                         },
                         on: {
-                            load: this.imgLoaded
+                            load: function () {
+                                el.$emit('img-loaded')
+                            }
                         },
                     }));
                 }
                 else {
                     children.push(h("a", {
                         domProps: {
-                            innerHTML: p.split("://")[1]
+                            innerHTML: this.shortLink(p)
                         },
                         attrs: {
                             href: p,
@@ -87,7 +90,6 @@ var sFormatted = {
                         },
                     }));
                 }
-                
             }
             else if (p != " ") {
                 children.push(p);
@@ -99,19 +101,18 @@ var sFormatted = {
         return h('p', children);
     },
     methods: {
-         getContent() {
-            var res = this.text;
-            var pieces = res.split(" ");
-            for (const p of pieces) {
-                if (p.startsWith("http")) {
-                    var link = "<a href=" + p + " target='_blank'>" + p.split("://")[1] + "</a>";
-                    res = res.replace(p, link);
-                }
-            }
-            return res;
+        isImage(link) {
+            const l = link.toLowerCase();
+            const formats = [".jpg", ".jpeg", ".png", ".gif", ".svg", ".bmp"];
+
+            return formats.some(function(f) {
+                return l.endsWith(f)
+            });
         },
-        imgLoaded() {
-            this.$emit('img-loaded');
+        shortLink(link) {
+            var s = link.split("://")[1];
+            s.replace("www.", "");
+            return s;
         }
     }
 }

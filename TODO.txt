@@ -1,3 +1,4 @@
+DO:
 grab user's attention
 animate icon?
 msg has been read
@@ -9,8 +10,15 @@ more presence statuses {
     offline
 }
 nicer inline styles
-.png link is not actually image
+.png link is not actually image or vice versa
 
+MAYBE:
+show timestamps on hover?
+images
+use scrollsnapping?
+get babel
+
+DONE:
 allow changing user's name
 show who's actively typing
 animate bubbles
@@ -24,5 +32,3 @@ hyperlinks
 mobile fixes: down-arrow
 images break autoscroll
 
-show timestamps on hover?
-images
