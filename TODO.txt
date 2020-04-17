@@ -9,7 +9,7 @@ more presence statuses {
     offline
 }
 nicer inline styles
-mobile fixes: down-arrow
+.png link is not actually image
 
 allow changing user's name
 show who's actively typing
@@ -20,7 +20,9 @@ fancy is typing effect
 better autoscroll
 scroll arrows
 nicer scrollbar
+hyperlinks
+mobile fixes: down-arrow
+images break autoscroll
 
 show timestamps on hover?
-hyperlinks
 images

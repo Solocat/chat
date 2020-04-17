@@ -17,7 +17,7 @@
     </transition>
 
     <ul id="messages" @scroll="onScroll">
-        <s-bubble v-for="g in messageGroups" :group="g" :color="g.author == author ? me.color : friend.color" :mine="g.author == author"></s-bubble>
+        <s-bubble v-for="g in messageGroups" :group="g" :color="g.author == author ? me.color : friend.color" :mine="g.author == author" @img-loaded="scrollMessages('end', 'smooth')"></s-bubble>
     </ul>
     <transition name="fade">
         <button class="arrow down" v-show="showArrowDown" @click="scrollMessages('end', 'smooth')">v</button>

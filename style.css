@@ -51,6 +51,10 @@ ul#messages::-webkit-scrollbar {
 
     display: flex;
     flex-direction: column;
+
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 .bubble+.bubble {
     margin-top: 0.7em;
@@ -77,6 +81,10 @@ ul#messages::-webkit-scrollbar {
 }
 .bubble .time {
     font-size: 14px;
+}
+
+.bubble img {
+    width: 100%;
 }
 
 .hidden {

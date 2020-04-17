@@ -88,7 +88,13 @@ var app = new Vue({
 
             function ScrollDelay() {
                 var bottom = block.scrollHeight - block.scrollTop - block.clientHeight;
-                vm.showArrowDown = (bottom != 0);
+
+                if(bottom > 8) {
+                    vm.showArrowDown = true;
+                }
+                else {
+                    vm.scrollMessages('end', 'smooth');
+                }
                 clearTimeout(this.arrowTimeout);
             }
             this.arrowTimeout = setTimeout(ScrollDelay, 500);

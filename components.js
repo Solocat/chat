@@ -65,15 +65,29 @@ var sFormatted = {
         var pieces = res.split(" ");
         for (const p of pieces) {
             if (p.startsWith("http")) {
-                children.push(h("a", {
-                    domProps: {
-                        innerHTML: p.split("://")[1]
-                    },
-                    attrs: {
-                        href: p,
-                        target: "_blank"
-                    },
-                }));
+                var lw = p.toLowerCase();
+                if (lw.endsWith(".png") || lw.endsWith(".jpg") || lw.endsWith(".jpeg")) {
+                    children.push(h("img", {
+                        attrs: {
+                            src: p,
+                        },
+                        on: {
+                            load: this.imgLoaded
+                        },
+                    }));
+                }
+                else {
+                    children.push(h("a", {
+                        domProps: {
+                            innerHTML: p.split("://")[1]
+                        },
+                        attrs: {
+                            href: p,
+                            target: "_blank"
+                        },
+                    }));
+                }
+                
             }
             else if (p != " ") {
                 children.push(p);
@@ -95,6 +109,9 @@ var sFormatted = {
                 }
             }
             return res;
+        },
+        imgLoaded() {
+            this.$emit('img-loaded');
         }
     }
 }
@@ -103,7 +120,7 @@ var sBubble = {
     props: ["group", "mine", "color"],
     template:  `<li class="bubble" :class="{right: !mine}" :style="{backgroundColor: color}">
                 <header class="time">{{ group.time | timeFormat }}</header>
-                <s-formatted v-for="(m, i) in group.messages" :key="i" v-scroll-jack :text="m.text"></s-formatted>
+                <s-formatted v-for="(m, i) in group.messages" :key="i" v-scroll-jack :text="m.text" @img-loaded="$emit('img-loaded')"></s-formatted>
             </li>`,
     components: {
         's-formatted' : sFormatted
