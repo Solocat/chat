@@ -39,13 +39,14 @@
             </span>
         </footer>
     </div>
-
+    <input id="fileUpload" type="file" accept="image/png, image/jpeg" onchange="console.log(this.value.split('\\').pop())">
 </content>
 
 
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script src="backend.js"></script>

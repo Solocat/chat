@@ -10,8 +10,7 @@ firebase.initializeApp({
 firebase.auth().useDeviceLanguage();
 
 var backend = {
-    testmode: false,
-    authenticate: async function()
+    async authenticate()
     {
         var provider = new firebase.auth.GoogleAuthProvider();
         try {
@@ -67,7 +66,11 @@ var backend = {
     messageRef(path) {
         return this.database.ref(this.root + "messages" + (path ? '/'+path : ""));
     },
+    async uploadFile(file) {
+        await this.storage.ref("images/").child(file.name).put(file);
+    },
     database: firebase.database(),
+    storage: firebase.storage(),
     root: "",
     me: null
 }

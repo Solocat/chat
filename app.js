@@ -89,12 +89,13 @@ var app = new Vue({
             function ScrollDelay() {
                 var bottom = block.scrollHeight - block.scrollTop - block.clientHeight;
 
-                if(bottom > 8) {
+                /*if(bottom > 8) {
                     vm.showArrowDown = true;
                 }
                 else {
                     vm.scrollMessages('end', 'smooth');
-                }
+                }*/
+                vm.showArrowDown = (bottom > 0);
                 clearTimeout(this.arrowTimeout);
             }
             this.arrowTimeout = setTimeout(ScrollDelay, 500);
@@ -117,7 +118,7 @@ var app = new Vue({
         's-textfield': sTextfield,
         's-bubble': sBubble
     },
-    async mounted() {
+    async created() {
         const vm = this;
 
         this.author = await backend.authenticate();

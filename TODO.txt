@@ -11,12 +11,14 @@ more presence statuses {
 }
 nicer inline styles
 .png link is not actually image or vice versa
+fix scroll jank
 
 MAYBE:
 show timestamps on hover?
 images
 use scrollsnapping?
 get babel
+image to full width? actually nah
 
 DONE:
 allow changing user's name
