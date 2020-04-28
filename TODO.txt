@@ -12,6 +12,7 @@ more presence statuses {
 nicer inline styles
 .png link is not actually image or vice versa
 fix scroll jank
+get browser preview in VS code
 
 MAYBE:
 show timestamps on hover?
