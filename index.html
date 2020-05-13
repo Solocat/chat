@@ -24,8 +24,9 @@
     </transition>
 
     <div style="display:flex; flex-direction: column;">
+        
         <span class="bubble right preview" :class="{hidden: !friend.presence.writing, active: friend.presence.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
-
+        
         <s-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></s-textfield>
 
         <footer>
@@ -39,7 +40,10 @@
             </span>
         </footer>
     </div>
-    <input id="fileUpload" type="file" accept="image/png, image/jpeg" @change="onFileInput">
+    <span style="height:40px; width: 40px;background-color: aqua;">
+        <input id="fileUpload" type="file" accept="image/png, image/jpeg" @change="onFileInput" style="height:100%; width: 100%; opacity: 0;">
+    </span>
+    
 </content>
 
 
