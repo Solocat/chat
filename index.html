@@ -39,7 +39,7 @@
             </span>
         </footer>
     </div>
-    <input id="fileUpload" type="file" accept="image/png, image/jpeg" onchange="console.log(this.value.split('\\').pop())">
+    <input id="fileUpload" type="file" accept="image/png, image/jpeg" @change="onFileInput">
 </content>
 
 

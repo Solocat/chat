@@ -56,7 +56,6 @@ var sFormatted = {
     props: ['text'],
     render: function (h) {
         var el = this;
-
         if (this.text.indexOf("http") < 0) {
             return h('p', this.text);
         }
@@ -102,7 +101,7 @@ var sFormatted = {
     },
     methods: {
         isImage(link) {
-            const l = link.toLowerCase();
+            const l = link.split('?')[0].toLowerCase();
             const formats = [".jpg", ".jpeg", ".png", ".gif", ".svg", ".bmp"];
 
             return formats.some(function(f) {

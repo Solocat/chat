@@ -78,6 +78,13 @@ var app = new Vue({
                 this.writeTimeout = setTimeout(waitInput, 1000);
             }
         },
+        async onFileInput(e) {
+            var files = e.target.files;
+            for (var i = 0; i < files.length; i++) {
+                var url = await backend.uploadFile(files[i]);
+                this.send(url);
+            }
+        },
         onScroll(event) {
             clearTimeout(this.arrowTimeout);
             var block = document.getElementById("messages");

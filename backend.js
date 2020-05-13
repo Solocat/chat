@@ -67,7 +67,14 @@ var backend = {
         return this.database.ref(this.root + "messages" + (path ? '/'+path : ""));
     },
     async uploadFile(file) {
-        await this.storage.ref("images/").child(file.name).put(file);
+        //should be a generated name
+        var ref = this.storage.ref("images/").child(file.name);
+        return await ref.put(file).then(function(snapshot) {
+            //console.log(snapshot);
+            return ref.getDownloadURL().then(function(url) {
+                return url;
+            });
+        });
     },
     database: firebase.database(),
     storage: firebase.storage(),
