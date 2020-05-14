@@ -24,8 +24,6 @@ ul#messages {
     margin: 0;
     padding: 0;
 
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
     overflow-y: scroll;
     border-radius: 1em 0em 1em 0em;
@@ -41,9 +39,6 @@ ul#messages::-webkit-scrollbar {
     background-color: #8bff92;
     padding: 0.4em 1em;
     border-radius: 1em 1em 1em 0em;
-
-    display: flex;
-    flex-direction: column;
 
     box-sizing: border-box;
     max-width: 100%;
@@ -85,10 +80,7 @@ ul#messages::-webkit-scrollbar {
 }
 
 .arrow {
-    color: white;
-    font-size:2em;
     background: linear-gradient(180deg, #222, transparent);
-    border: none;
     grid-row: 1;
     grid-column: 1;
     z-index: 10;
@@ -142,13 +134,20 @@ footer .onlineicon.online {
     align-items: center;
 }
 
-.button {
+button {
     font-size: 2em;
+    color:white;
+    border: none;
+    padding: 0;
+}
+
+.button {
     /*line-height: 1.25;*/
     height: 1.25em;
     width: 1.25em;
-    color:white;
+
     text-align: center;
+    background: transparent;
 }
 .file-button {
     display:grid;

@@ -118,7 +118,7 @@ var sFormatted = {
 
 var sBubble = {
     props: ["group", "mine", "color"],
-    template:  `<li class="bubble" :class="{right: !mine}" :style="{backgroundColor: color}">
+    template:  `<li class="bubble flex-column" :class="{right: !mine}" :style="{backgroundColor: color}">
                 <header class="time">{{ group.time | timeFormat }}</header>
                 <s-formatted v-for="(m, i) in group.messages" :key="i" v-scroll-jack :text="m.text" @img-loaded="$emit('img-loaded')"></s-formatted>
             </li>`,

@@ -16,7 +16,7 @@
         <button class="arrow" v-show="showArrowUp" @click="scrollMessages('start', 'smooth')">^</button>
     </transition>
 
-    <ul id="messages" @scroll="onScroll">
+    <ul id="messages" class="flex-column" @scroll="onScroll">
         <s-bubble v-for="g in messageGroups" :group="g" :color="g.author == author ? me.color : friend.color" :mine="g.author == author" @img-loaded="scrollMessages('end', 'smooth')"></s-bubble>
     </ul>
     <transition name="fade">
@@ -33,7 +33,7 @@
                 <div>+</div>
             </div>
             <s-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}" style="flex-grow:1"></s-textfield>
-            <div class="button">></div>
+            <button class="button" @click="send('eeeh')">></button>
         </div>
 
         <footer>
