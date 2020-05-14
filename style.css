@@ -132,3 +132,38 @@ footer .onlineicon {
 footer .onlineicon.online {
     color: #8bff92;
 }
+
+.flex-column {
+    display:flex;
+    flex-direction: column;
+}
+.flex-row {
+    display: flex; 
+    align-items: center;
+}
+
+.button {
+    font-size: 2em;
+    /*line-height: 1.25;*/
+    height: 1.25em;
+    width: 1.25em;
+    color:white;
+    text-align: center;
+}
+.file-button {
+    display:grid;
+    font-size: 2em;
+    height: 1.25em;
+    width: 1.25em;
+    color:white;
+    text-align: center;
+}
+.file-button>* {
+    grid-area: 1 / 1;
+    height: 1.25em;
+    font-size: inherit;
+}
+.file-button input {
+    width: 100%;
+    opacity: 0;
+}

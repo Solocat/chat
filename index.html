@@ -23,11 +23,18 @@
         <button class="arrow down" v-show="showArrowDown" @click="scrollMessages('end', 'smooth')">v</button>
     </transition>
 
-    <div style="display:flex; flex-direction: column;">
-        
+    <div class="flex-column">
+
         <span class="bubble right preview" :class="{hidden: !friend.presence.writing, active: friend.presence.writing == true}" :style="{backgroundColor: friend.color}">{{friend.name}} is typing&#x2026;</span>
-        
-        <s-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}"></s-textfield>
+
+        <div class="flex-row">
+            <div class="file-button">
+                <input id="fileUpload" type="file" accept="image/png, image/jpeg" @change="onFileInput">
+                <div>+</div>
+            </div>
+            <s-textfield @send="send" @input="onInput" @user-function="onUserFunction" :style="{backgroundColor: me.color}" style="flex-grow:1"></s-textfield>
+            <div class="button">></div>
+        </div>
 
         <footer>
             <span>
@@ -40,9 +47,7 @@
             </span>
         </footer>
     </div>
-    <span style="height:40px; width: 40px;background-color: aqua;">
-        <input id="fileUpload" type="file" accept="image/png, image/jpeg" @change="onFileInput" style="height:100%; width: 100%; opacity: 0;">
-    </span>
+
     
 </content>
 

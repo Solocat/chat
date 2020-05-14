@@ -2,7 +2,7 @@
   "name": "solo-poke",
   "short_name": "solo-poke",
   "description": "Chat with Solo",
-  "display": "minimal-ui",
+  "display": "standalone",
   "icons": [{
     "src": "Solopoke192square.png",
     "sizes": "192x192"
